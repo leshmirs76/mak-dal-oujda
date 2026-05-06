@@ -1,0 +1,25 @@
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node (au cas où)
+node_modules/
+dist/
+build/
+.env
+.env.local
+
+# Logs
+*.log
+
+# Fichiers source non-publiés (références menu, brouillons)
+6Gemini_Generated_Image_*.jpeg
+6a2530b74-*.jpeg
+MakDalLanding.jsx

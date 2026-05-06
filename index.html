@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mak'Dal Oujda — Le Goût Authentique d'Oujda</title>
+<meta name="description" content="Mak'Dal Oujda — Burgers, Tacos, Naan, Pizzas, Sandwichs. Le fast-food de référence à Oujda, Maroc." />
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          // Brand palette inspirée du visuel "BIG MAK" rose-fuchsia + jaune
+          brand: {
+            50:  '#fff0f7',
+            100: '#ffe0ef',
+            200: '#ffc1de',
+            300: '#ff8fc1',
+            400: '#ff4ea0',
+            500: '#ff1f86',  // hot pink principal
+            600: '#e6006e',
+            700: '#bf005c',
+            800: '#99004a',
+            900: '#660033',
+          },
+          gold: {
+            300: '#fde68a',
+            400: '#facc15',
+            500: '#eab308',
+          },
+        },
+        fontFamily: {
+          sans: ['Inter', 'system-ui', 'sans-serif'],
+          display: ['Anton', 'Inter', 'sans-serif'],
+        },
+        animation: {
+          'marquee': 'marquee 30s linear infinite',
+          'marquee-slow': 'marquee 60s linear infinite',
+          'shine': 'shine 2.5s ease infinite',
+          'spin-slow': 'spin 30s linear infinite',
+          'float': 'float 4s ease-in-out infinite',
+          'float-delay': 'float 5s ease-in-out infinite 1s',
+          'wiggle': 'wiggle 6s ease-in-out infinite',
+          'pulse-glow': 'pulseGlow 2.5s ease-in-out infinite',
+        },
+        keyframes: {
+          marquee: { '0%': { transform: 'translateX(0)' }, '100%': { transform: 'translateX(-33.333%)' } },
+          shine: { '0%': { transform: 'translateX(-100%)' }, '100%': { transform: 'translateX(100%)' } },
+          float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-15px)' } },
+          wiggle: { '0%, 100%': { transform: 'rotate(0deg)' }, '25%': { transform: 'rotate(8deg)' }, '75%': { transform: 'rotate(-8deg)' } },
+          pulseGlow: {
+            '0%, 100%': { boxShadow: '0 0 0 0 rgba(255,31,134,0.7)' },
+            '50%': { boxShadow: '0 0 0 16px rgba(255,31,134,0)' },
+          },
+        },
+      },
+    },
+  };
+</script>
+
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', system-ui, sans-serif; background: #0d0510; }
+  ::selection { background: #ff1f86; color: white; }
+  .font-display { font-family: 'Anton', 'Inter', sans-serif; letter-spacing: -0.02em; }
+
+  /* Reveal */
+  .reveal { opacity: 0; transform: translateY(40px); transition: opacity .8s cubic-bezier(0.22,1,0.36,1), transform .8s cubic-bezier(0.22,1,0.36,1); }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: .08s; }
+  .reveal-delay-2 { transition-delay: .16s; }
+  .reveal-delay-3 { transition-delay: .24s; }
+  .reveal-delay-4 { transition-delay: .32s; }
+
+  /* Conic glow */
+  .bg-conic-glow { background: conic-gradient(from 0deg, #ff1f86, #facc15, #ff1f86, #facc15, #ff1f86); }
+
+  .underline-grow { transform: scaleX(0); transform-origin: left; transition: transform 1s ease .8s; }
+  .underline-grow.in { transform: scaleX(1); }
+
+  .tap { transition: transform .15s ease; }
+  .tap:active { transform: scale(.96); }
+  .hover-lift { transition: transform .4s cubic-bezier(0.22,1,0.36,1); }
+  .hover-lift:hover { transform: translateY(-8px); }
+
+  #hero-visual { will-change: transform; }
+
+  /* Fond dégradé ambient style BIG MAK */
+  .ambient-pink {
+    background:
+      radial-gradient(ellipse at 20% 0%, rgba(255,31,134,.35), transparent 55%),
+      radial-gradient(ellipse at 80% 100%, rgba(250,204,21,.18), transparent 55%),
+      radial-gradient(ellipse at 50% 60%, rgba(230,0,110,.25), transparent 60%);
+  }
+
+  /* Tab actif menu */
+  .tab-btn { transition: all .3s ease; }
+  .tab-btn.active { background: linear-gradient(135deg, #ff1f86, #e6006e); color: white; box-shadow: 0 12px 30px -8px rgba(255,31,134,.6); }
+
+  /* Image card hover */
+  .product-img { filter: drop-shadow(0 30px 30px rgba(0,0,0,.45)); transition: transform .6s cubic-bezier(0.22,1,0.36,1); }
+  .group:hover .product-img { transform: scale(1.08) rotate(-3deg); }
+
+  /* Soft dotted pattern */
+  .dots {
+    background-image: radial-gradient(circle, rgba(255,255,255,.12) 1.5px, transparent 1.5px);
+    background-size: 22px 22px;
+  }
+
+  /* Rays — concentric glow rings */
+  .rays {
+    background:
+      radial-gradient(circle at 50% 50%, rgba(255,255,255,.08) 0%, transparent 35%),
+      conic-gradient(from 0deg at 50% 50%,
+        rgba(255,255,255,0) 0deg, rgba(255,255,255,.06) 10deg,
+        rgba(255,255,255,0) 20deg, rgba(255,255,255,.06) 30deg,
+        rgba(255,255,255,0) 40deg, rgba(255,255,255,.06) 50deg,
+        rgba(255,255,255,0) 60deg, rgba(255,255,255,.06) 70deg,
+        rgba(255,255,255,0) 80deg, rgba(255,255,255,.06) 90deg,
+        rgba(255,255,255,0) 100deg, rgba(255,255,255,.06) 110deg,
+        rgba(255,255,255,0) 120deg, rgba(255,255,255,.06) 130deg,
+        rgba(255,255,255,0) 140deg, rgba(255,255,255,.06) 150deg,
+        rgba(255,255,255,0) 160deg, rgba(255,255,255,.06) 170deg,
+        rgba(255,255,255,0) 180deg, rgba(255,255,255,.06) 190deg,
+        rgba(255,255,255,0) 200deg, rgba(255,255,255,.06) 210deg,
+        rgba(255,255,255,0) 220deg, rgba(255,255,255,.06) 230deg,
+        rgba(255,255,255,0) 240deg, rgba(255,255,255,.06) 250deg,
+        rgba(255,255,255,0) 260deg, rgba(255,255,255,.06) 270deg,
+        rgba(255,255,255,0) 280deg, rgba(255,255,255,.06) 290deg,
+        rgba(255,255,255,0) 300deg, rgba(255,255,255,.06) 310deg,
+        rgba(255,255,255,0) 320deg, rgba(255,255,255,.06) 330deg,
+        rgba(255,255,255,0) 340deg, rgba(255,255,255,.06) 350deg,
+        rgba(255,255,255,0) 360deg);
+  }
+
+  /* Spotlight — vignette douce qui met le produit en valeur */
+  .spotlight {
+    background: radial-gradient(ellipse at 50% 60%, rgba(255,255,255,.18) 0%, rgba(255,255,255,0) 60%);
+  }
+
+  /* Soft halo glow gold */
+  .halo-gold {
+    background: radial-gradient(circle at 50% 50%, rgba(250,204,21,.35) 0%, rgba(255,31,134,0) 65%);
+  }
+
+  /* Hide scrollbar utility */
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+  .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+</style>
+</head>
+
+<body class="relative min-h-screen text-white antialiased overflow-x-hidden">
+
+  <!-- Ambient bg -->
+  <div class="pointer-events-none fixed inset-0 -z-10 ambient-pink"></div>
+  <!-- Grain noise texture (organique, food-friendly) -->
+  <div class="pointer-events-none fixed inset-0 -z-10 opacity-[0.18] mix-blend-overlay" style="background-image: url(&quot;data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>&quot;);"></div>
+  <!-- Floating blurred orbs -->
+  <div class="pointer-events-none fixed -z-10 top-[20%] -left-32 w-[450px] h-[450px] rounded-full bg-brand-500/15 blur-[120px]"></div>
+  <div class="pointer-events-none fixed -z-10 bottom-[10%] -right-32 w-[500px] h-[500px] rounded-full bg-gold-400/10 blur-[140px]"></div>
+
+  <!-- ========== NAVBAR ========== -->
+  <header id="navbar" class="fixed top-3 sm:top-5 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-7xl rounded-2xl sm:rounded-3xl bg-white/5 backdrop-blur-md border border-white/10 transition-all duration-500">
+    <div class="flex items-center justify-between px-4 sm:px-6 py-3">
+      <a href="#" class="flex items-center gap-2.5 group">
+        <div class="relative w-11 h-11 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center shadow-lg shadow-brand-600/50 group-hover:rotate-6 transition-transform">
+          <i data-lucide="flame" class="w-5 h-5 text-gold-400" stroke-width="2.5"></i>
+          <span class="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-gold-400 animate-ping"></span>
+          <span class="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-gold-400"></span>
+        </div>
+        <div class="leading-none">
+          <p class="font-black text-white text-lg sm:text-xl tracking-tight">MAK<span class="text-brand-500">'</span>DAL</p>
+          <p class="text-[10px] text-white/50 tracking-[0.25em] font-semibold">OUJDA · MAROC</p>
+        </div>
+      </a>
+
+      <nav class="hidden lg:flex items-center gap-1">
+        <a href="#menu" class="relative px-4 py-2 text-sm font-semibold text-white/80 hover:text-white rounded-full transition-colors group">Menu<span class="absolute inset-x-4 -bottom-0.5 h-0.5 bg-gold-400 scale-x-0 group-hover:scale-x-100 origin-left transition-transform"></span></a>
+        <a href="#tacos-builder" class="relative px-4 py-2 text-sm font-semibold text-white/80 hover:text-white rounded-full transition-colors group flex items-center gap-1.5">
+          <span>Mon Tacos</span>
+          <span class="text-[9px] font-black tracking-wider px-1.5 py-0.5 rounded bg-gold-400 text-black">NEW</span>
+        </a>
+        <a href="#new" class="relative px-4 py-2 text-sm font-semibold text-white/80 hover:text-white rounded-full transition-colors group">Nouveautés<span class="absolute inset-x-4 -bottom-0.5 h-0.5 bg-gold-400 scale-x-0 group-hover:scale-x-100 origin-left transition-transform"></span></a>
+        <a href="#why" class="relative px-4 py-2 text-sm font-semibold text-white/80 hover:text-white rounded-full transition-colors group">Pourquoi Nous<span class="absolute inset-x-4 -bottom-0.5 h-0.5 bg-gold-400 scale-x-0 group-hover:scale-x-100 origin-left transition-transform"></span></a>
+        <a href="#contact" class="relative px-4 py-2 text-sm font-semibold text-white/80 hover:text-white rounded-full transition-colors group">Localisation<span class="absolute inset-x-4 -bottom-0.5 h-0.5 bg-gold-400 scale-x-0 group-hover:scale-x-100 origin-left transition-transform"></span></a>
+      </nav>
+
+      <div class="flex items-center gap-2">
+        <a href="#order" class="tap relative hidden sm:inline-flex items-center gap-2 overflow-hidden rounded-full bg-gradient-to-r from-brand-500 to-brand-600 px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-brand-600/40 hover:scale-105 transition-transform animate-pulse-glow">
+          <span class="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shine"></span>
+          <i data-lucide="shopping-bag" class="w-4 h-4 relative"></i>
+          <span class="relative">Commander</span>
+        </a>
+        <button id="menu-toggle" class="lg:hidden w-10 h-10 rounded-xl bg-white/10 border border-white/10 text-white flex items-center justify-center" aria-label="menu">
+          <i data-lucide="menu" class="w-5 h-5" id="menu-icon"></i>
+        </button>
+      </div>
+    </div>
+    <div id="mobile-menu" class="lg:hidden overflow-hidden border-t border-white/10 hidden">
+      <div class="flex flex-col p-4 gap-1">
+        <a href="#menu" class="px-4 py-3 rounded-xl text-white/80 hover:bg-white/5 font-semibold">Menu</a>
+        <a href="#tacos-builder" class="px-4 py-3 rounded-xl text-white/80 hover:bg-white/5 font-semibold flex items-center justify-between">
+          <span>Mon Tacos</span>
+          <span class="text-[9px] font-black tracking-wider px-1.5 py-0.5 rounded bg-gold-400 text-black">NEW</span>
+        </a>
+        <a href="#new" class="px-4 py-3 rounded-xl text-white/80 hover:bg-white/5 font-semibold">Nouveautés</a>
+        <a href="#why" class="px-4 py-3 rounded-xl text-white/80 hover:bg-white/5 font-semibold">Pourquoi Nous</a>
+        <a href="#contact" class="px-4 py-3 rounded-xl text-white/80 hover:bg-white/5 font-semibold">Localisation</a>
+        <a href="#order" class="mt-2 inline-flex items-center justify-center gap-2 rounded-xl bg-brand-600 px-5 py-3 font-bold text-white">
+          <i data-lucide="shopping-bag" class="w-4 h-4"></i> Commander
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========== HERO ========== -->
+  <section class="relative min-h-screen pt-24 sm:pt-32 pb-12 sm:pb-20 overflow-hidden">
+    <div class="absolute inset-0 -z-10">
+      <div class="absolute top-1/4 -left-40 w-[400px] sm:w-[600px] h-[400px] sm:h-[600px] rounded-full bg-brand-600/40 blur-[120px] sm:blur-[140px]"></div>
+      <div class="absolute bottom-0 right-0 w-[350px] sm:w-[500px] h-[350px] sm:h-[500px] rounded-full bg-gold-400/15 blur-[100px] sm:blur-[120px]"></div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 grid lg:grid-cols-2 gap-6 sm:gap-10 items-center">
+
+      <!-- Visual: en premier sur mobile (impact immédiat) -->
+      <div id="hero-visual" class="relative aspect-square max-w-[280px] sm:max-w-[450px] lg:max-w-[600px] mx-auto w-full order-1 lg:order-2">
+        <div class="absolute inset-8 sm:inset-12 rounded-full bg-conic-glow blur-3xl opacity-50 animate-spin-slow"></div>
+        <div class="absolute inset-4 sm:inset-8 rounded-full bg-gradient-to-br from-brand-500 via-brand-600 to-brand-800 shadow-2xl shadow-brand-600/50 overflow-hidden">
+          <div class="absolute inset-0 rays"></div>
+          <div class="absolute inset-0 spotlight"></div>
+        </div>
+        <div class="absolute top-3 sm:top-8 left-1/2 -translate-x-1/2 z-20 px-4 sm:px-6 py-1.5 sm:py-2 rounded-full bg-gold-400 text-black font-display text-base sm:text-2xl tracking-wider shadow-xl">
+          BIG MAK
+        </div>
+
+        <img src="BURGER/KING%20DAL.png" alt="King Dal Burger" class="relative z-10 w-full h-full object-contain product-img" id="hero-burger" />
+
+        <div class="absolute top-[18%] -left-2 sm:-left-10 z-20 px-2.5 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 backdrop-blur-xl border border-white/20 shadow-xl animate-float">
+          <div class="flex items-center gap-1.5 sm:gap-2">
+            <i data-lucide="flame" class="w-4 h-4 sm:w-5 sm:h-5 text-gold-400"></i>
+            <div>
+              <p class="text-[9px] sm:text-xs text-white/60 font-semibold leading-tight">Best-seller</p>
+              <p class="text-xs sm:text-sm font-bold text-white leading-tight">King Dal</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="absolute bottom-4 sm:bottom-10 -right-1 sm:-right-6 z-20 px-2.5 sm:px-4 py-2 sm:py-3 rounded-xl sm:rounded-2xl bg-brand-600/90 backdrop-blur-xl border border-white/20 shadow-xl animate-float-delay">
+          <p class="text-[8px] sm:text-[10px] text-white/80 font-bold tracking-widest">À PARTIR DE</p>
+          <p class="text-lg sm:text-2xl font-black text-white leading-none">25<span class="text-gold-400 text-xs sm:text-sm ml-1">DH</span></p>
+        </div>
+
+        <div class="absolute top-1/2 -right-1 sm:-right-8 z-20 w-12 h-12 sm:w-20 sm:h-20 rounded-full bg-gold-400 flex items-center justify-center font-black text-black text-center text-[9px] sm:text-xs leading-tight shadow-xl animate-wiggle">
+          100%<br>FRESH
+        </div>
+      </div>
+
+      <!-- Texte -->
+      <div class="relative z-10 order-2 lg:order-1 text-center lg:text-left">
+        <div class="reveal inline-flex items-center gap-2 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-4 sm:mb-6">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gold-400"></i>
+          <span class="text-[10px] sm:text-xs font-bold tracking-[0.2em] text-white/80">N°1 STREET FOOD · OUJDA</span>
+        </div>
+
+        <h1 class="reveal reveal-delay-1 font-display text-white leading-[0.9]" style="font-size: clamp(2.5rem, 9vw, 7rem);">
+          LE GOÛT<br>
+          <span class="relative inline-block">
+            <span class="bg-gradient-to-r from-brand-500 via-gold-400 to-brand-500 bg-clip-text text-transparent">AUTHENTIQUE</span>
+            <span class="underline-grow absolute -bottom-2 left-0 right-0 h-1.5 bg-gold-400 rounded-full"></span>
+          </span><br>
+          D'<span class="italic text-gold-400">Oujda.</span>
+        </h1>
+
+        <p class="reveal reveal-delay-2 mt-4 sm:mt-6 max-w-xl mx-auto lg:mx-0 text-sm sm:text-lg text-white/70 leading-relaxed">
+          Burgers généreux, tacos XXL, naan signature et pizzas maison. Une seule adresse : <span class="text-white font-semibold">Mak'Dal</span>.
+        </p>
+
+        <div class="reveal reveal-delay-3 mt-6 sm:mt-8 flex flex-col sm:flex-row gap-2.5 sm:gap-3">
+          <a href="#order" class="tap relative overflow-hidden inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-brand-500 to-brand-600 text-white px-5 sm:px-6 py-3 sm:py-3.5 font-bold text-sm sm:text-base shadow-2xl shadow-brand-600/40 hover:scale-105 transition-transform">
+            <span class="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent animate-shine"></span>
+            <i data-lucide="shopping-bag" class="w-4 h-4 relative"></i>
+            <span class="relative">Commander</span>
+          </a>
+          <a href="#menu" class="tap group inline-flex items-center justify-center gap-2 rounded-full bg-white/10 border border-white/20 text-white px-5 sm:px-6 py-3 sm:py-3.5 font-bold text-sm sm:text-base hover:bg-white hover:text-black transition-colors">
+            Voir le Menu
+            <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+          </a>
+        </div>
+
+        <div class="reveal reveal-delay-4 mt-8 sm:mt-12 grid grid-cols-3 gap-3 sm:gap-6 max-w-sm mx-auto lg:mx-0">
+          <div class="text-center lg:text-left">
+            <p class="font-black text-xl sm:text-3xl text-white">10K+</p>
+            <p class="text-[10px] sm:text-xs text-white/50 mt-0.5 sm:mt-1">Clients</p>
+          </div>
+          <div class="text-center lg:text-left">
+            <p class="font-black text-xl sm:text-3xl text-white flex items-center justify-center lg:justify-start gap-1">4.9 <i data-lucide="star" class="w-4 h-4 sm:w-5 sm:h-5 text-gold-400 fill-current"></i></p>
+            <p class="text-[10px] sm:text-xs text-white/50 mt-0.5 sm:mt-1">Note</p>
+          </div>
+          <div class="text-center lg:text-left">
+            <p class="font-black text-xl sm:text-3xl text-white">02H</p>
+            <p class="text-[10px] sm:text-xs text-white/50 mt-0.5 sm:mt-1">Ouvert tard</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== MARQUEE ========== -->
+  <div class="relative bg-gradient-to-r from-brand-600 via-brand-500 to-brand-600 py-3 sm:py-5 border-y-2 sm:border-y-4 border-gold-400 overflow-hidden -rotate-1 my-6 sm:my-10 shadow-2xl shadow-brand-600/30">
+    <div class="flex whitespace-nowrap animate-marquee">
+      <!-- 24 items for seamless 33% loop -->
+      <span class="mx-8 font-display text-2xl sm:text-4xl md:text-5xl text-white flex items-center gap-4 sm:gap-8">TACOS<span class="text-gold-300 text-2xl">●</span></span>
+      <span class="mx-8 font-display text-2xl sm:text-4xl md:text-5xl text-white flex items-center gap-4 sm:gap-8">BURGERS<span class="text-gold-300 text-2xl">●</span></span>
+      <span class="mx-8 font-display text-2xl sm:text-4xl md:text-5xl text-white flex items-center gap-4 sm:gap-8">NAAN<span class="text-gold-300 text-2xl">●</span></span>
+      <span class="mx-8 font-display text-2xl sm:text-4xl md:text-5xl text-white flex items-center gap-4 sm:gap-8">PIZZA<span class="text-gold-300 text-2xl">●</span></span>
+      <span class="mx-8 font-display text-2xl sm:text-4xl md:text-5xl text-white flex items-center gap-4 sm:gap-8">SANDWICH<span class="text-gold-300 text-2xl">●</span></span>
+      <span class="mx-8 font-display text-2xl sm:text-4xl md:text-5xl text-white flex items-center gap-4 sm:gap-8">OUJDA<span class="text-gold-300 text-2xl">●</span></span>
+      <span class="mx-8 font-display text-2xl sm:text-4xl md:text-5xl text-white flex items-center gap-4 sm:gap-8">100% FRESH<span class="text-gold-300 text-2xl">●</span></span>
+      <span class="mx-8 font-display text-2xl sm:text-4xl md:text-5xl text-white flex items-center gap-4 sm:gap-8">MAK'DAL<span class="text-gold-300 text-2xl">●</span></span>
+
+      <span class="mx-8 font-display text-2xl sm:text-4xl md:text-5xl text-white flex items-center gap-4 sm:gap-8">TACOS<span class="text-gold-300 text-2xl">●</span></span>
+      <span class="mx-8 font-display text-2xl sm:text-4xl md:text-5xl text-white flex items-center gap-4 sm:gap-8">BURGERS<span class="text-gold-300 text-2xl">●</span></span>
+      <span class="mx-8 font-display text-2xl sm:text-4xl md:text-5xl text-white flex items-center gap-4 sm:gap-8">NAAN<span class="text-gold-300 text-2xl">●</span></span>
+      <span class="mx-8 font-display text-2xl sm:text-4xl md:text-5xl text-white flex items-center gap-4 sm:gap-8">PIZZA<span class="text-gold-300 text-2xl">●</span></span>
+      <span class="mx-8 font-display text-2xl sm:text-4xl md:text-5xl text-white flex items-center gap-4 sm:gap-8">SANDWICH<span class="text-gold-300 text-2xl">●</span></span>
+      <span class="mx-8 font-display text-2xl sm:text-4xl md:text-5xl text-white flex items-center gap-4 sm:gap-8">OUJDA<span class="text-gold-300 text-2xl">●</span></span>
+      <span class="mx-8 font-display text-2xl sm:text-4xl md:text-5xl text-white flex items-center gap-4 sm:gap-8">100% FRESH<span class="text-gold-300 text-2xl">●</span></span>
+      <span class="mx-8 font-display text-2xl sm:text-4xl md:text-5xl text-white flex items-center gap-4 sm:gap-8">MAK'DAL<span class="text-gold-300 text-2xl">●</span></span>
+
+      <span class="mx-8 font-display text-2xl sm:text-4xl md:text-5xl text-white flex items-center gap-4 sm:gap-8">TACOS<span class="text-gold-300 text-2xl">●</span></span>
+      <span class="mx-8 font-display text-2xl sm:text-4xl md:text-5xl text-white flex items-center gap-4 sm:gap-8">BURGERS<span class="text-gold-300 text-2xl">●</span></span>
+      <span class="mx-8 font-display text-2xl sm:text-4xl md:text-5xl text-white flex items-center gap-4 sm:gap-8">NAAN<span class="text-gold-300 text-2xl">●</span></span>
+      <span class="mx-8 font-display text-2xl sm:text-4xl md:text-5xl text-white flex items-center gap-4 sm:gap-8">PIZZA<span class="text-gold-300 text-2xl">●</span></span>
+      <span class="mx-8 font-display text-2xl sm:text-4xl md:text-5xl text-white flex items-center gap-4 sm:gap-8">SANDWICH<span class="text-gold-300 text-2xl">●</span></span>
+      <span class="mx-8 font-display text-2xl sm:text-4xl md:text-5xl text-white flex items-center gap-4 sm:gap-8">OUJDA<span class="text-gold-300 text-2xl">●</span></span>
+      <span class="mx-8 font-display text-2xl sm:text-4xl md:text-5xl text-white flex items-center gap-4 sm:gap-8">100% FRESH<span class="text-gold-300 text-2xl">●</span></span>
+      <span class="mx-8 font-display text-2xl sm:text-4xl md:text-5xl text-white flex items-center gap-4 sm:gap-8">MAK'DAL<span class="text-gold-300 text-2xl">●</span></span>
+    </div>
+  </div>
+
+  <!-- ========== MENU (avec onglets) ========== -->
+  <section id="menu" class="relative py-14 sm:py-24 px-4 sm:px-6">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-8 sm:mb-10">
+        <span class="reveal text-xs sm:text-sm font-bold tracking-[0.3em] text-gold-400">· NOTRE CARTE ·</span>
+        <h2 class="reveal reveal-delay-1 mt-2 sm:mt-3 font-display text-white leading-none" style="font-size: clamp(2rem, 7vw, 5rem);">
+          Le Menu <span class="italic text-brand-500">Complet</span>
+        </h2>
+        <p class="reveal reveal-delay-2 mt-3 sm:mt-4 text-sm sm:text-base text-white/60 max-w-xl mx-auto px-2">
+          Tous nos produits frais, préparés à la commande. Choisis ta catégorie.
+        </p>
+      </div>
+
+      <!-- Tabs (scrollable horizontalement sur mobile) -->
+      <div class="reveal reveal-delay-3 -mx-4 sm:mx-0 mb-8 sm:mb-10 overflow-x-auto scrollbar-hide">
+        <div id="tabs" class="flex sm:flex-wrap sm:justify-center gap-2 px-4 sm:px-0 w-max sm:w-auto mx-auto"></div>
+      </div>
+
+      <!-- Grid -->
+      <div id="menu-grid" class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-5"></div>
+    </div>
+  </section>
+
+  <!-- ========== COMPOSE TON TACOS ========== -->
+  <section id="tacos-builder" class="relative py-14 sm:py-24 px-4 sm:px-6 overflow-hidden">
+    <div class="absolute inset-0 -z-10">
+      <div class="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-brand-600/30 blur-[140px]"></div>
+      <div class="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-gold-400/15 blur-[120px]"></div>
+    </div>
+
+    <div class="max-w-6xl mx-auto">
+      <!-- Header -->
+      <div class="text-center mb-8 sm:mb-12">
+        <span class="reveal text-xs sm:text-sm font-bold tracking-[0.3em] text-gold-400">· EXCLUSIVITÉ MAK'DAL ·</span>
+        <h2 class="reveal reveal-delay-1 mt-2 sm:mt-3 font-display text-white leading-none" style="font-size: clamp(2rem, 7vw, 5rem);">
+          Compose ton <span class="italic text-brand-500">Tacos</span>
+        </h2>
+        <p class="reveal reveal-delay-2 mt-3 sm:mt-4 text-sm sm:text-base text-white/60 max-w-xl mx-auto px-2">
+          Choisis ta taille, tes viandes, tes sauces. Ton tacos sur-mesure, prêt en 8 minutes.
+        </p>
+      </div>
+
+      <div class="reveal reveal-delay-3 grid lg:grid-cols-[1fr_360px] gap-6 lg:gap-8">
+
+        <!-- Configurateur -->
+        <div class="space-y-6">
+
+          <!-- ÉTAPE 1 — Taille -->
+          <div class="rounded-2xl sm:rounded-3xl bg-white/[0.04] backdrop-blur-xl border border-white/10 p-5 sm:p-7">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="w-8 h-8 rounded-full bg-gradient-to-br from-brand-500 to-brand-600 text-white font-black text-sm flex items-center justify-center shadow-lg shadow-brand-600/40">1</span>
+              <h3 class="font-display text-white text-2xl sm:text-3xl">Choisis ta taille</h3>
+            </div>
+            <div id="tb-sizes" class="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3"></div>
+          </div>
+
+          <!-- ÉTAPE 2 — Viandes -->
+          <div class="rounded-2xl sm:rounded-3xl bg-white/[0.04] backdrop-blur-xl border border-white/10 p-5 sm:p-7">
+            <div class="flex items-center justify-between gap-3 mb-4 flex-wrap">
+              <div class="flex items-center gap-3">
+                <span class="w-8 h-8 rounded-full bg-gradient-to-br from-brand-500 to-brand-600 text-white font-black text-sm flex items-center justify-center shadow-lg shadow-brand-600/40">2</span>
+                <h3 class="font-display text-white text-2xl sm:text-3xl">Tes viandes</h3>
+              </div>
+              <span id="tb-meats-counter" class="text-xs font-bold text-gold-400 bg-gold-400/10 border border-gold-400/30 px-3 py-1 rounded-full"></span>
+            </div>
+            <div id="tb-meats" class="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3"></div>
+          </div>
+
+          <!-- ÉTAPE 3 — Sauces -->
+          <div class="rounded-2xl sm:rounded-3xl bg-white/[0.04] backdrop-blur-xl border border-white/10 p-5 sm:p-7">
+            <div class="flex items-center justify-between gap-3 mb-4 flex-wrap">
+              <div class="flex items-center gap-3">
+                <span class="w-8 h-8 rounded-full bg-gradient-to-br from-brand-500 to-brand-600 text-white font-black text-sm flex items-center justify-center shadow-lg shadow-brand-600/40">3</span>
+                <h3 class="font-display text-white text-2xl sm:text-3xl">Tes sauces</h3>
+              </div>
+              <span class="text-xs font-bold text-white/60">2 max · offertes</span>
+            </div>
+            <div id="tb-sauces" class="grid grid-cols-2 sm:grid-cols-4 gap-2"></div>
+          </div>
+
+          <!-- ÉTAPE 4 — Suppléments -->
+          <div class="rounded-2xl sm:rounded-3xl bg-white/[0.04] backdrop-blur-xl border border-white/10 p-5 sm:p-7">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="w-8 h-8 rounded-full bg-gradient-to-br from-brand-500 to-brand-600 text-white font-black text-sm flex items-center justify-center shadow-lg shadow-brand-600/40">4</span>
+              <h3 class="font-display text-white text-2xl sm:text-3xl">Suppléments</h3>
+              <span class="text-xs font-bold text-white/40 ml-auto">optionnel</span>
+            </div>
+            <div id="tb-extras" class="grid grid-cols-2 gap-2"></div>
+          </div>
+        </div>
+
+        <!-- Récap (sticky desktop) -->
+        <aside class="lg:sticky lg:top-28 lg:self-start">
+          <div class="relative rounded-2xl sm:rounded-3xl overflow-hidden bg-gradient-to-br from-brand-700 via-brand-800 to-brand-900 border border-brand-500/40 shadow-2xl shadow-brand-700/40">
+            <div class="absolute inset-0 halo-gold opacity-50"></div>
+            <div class="absolute inset-0 spotlight"></div>
+
+            <div class="relative p-5 sm:p-7">
+              <div class="flex items-center gap-2 mb-3">
+                <i data-lucide="receipt" class="w-4 h-4 text-gold-400"></i>
+                <p class="text-xs font-bold text-white/70 tracking-[0.2em]">TON TACOS</p>
+              </div>
+
+              <h4 id="tb-summary-title" class="font-display text-white text-3xl sm:text-4xl leading-none mb-4"></h4>
+
+              <!-- Visual tacos -->
+              <div class="relative h-40 sm:h-52 my-5 flex items-center justify-center">
+                <div class="absolute inset-x-4 top-1/2 -translate-y-1/2 h-20 rounded-full bg-gold-400/30 blur-3xl"></div>
+                <img
+                  src="TACOS/tacos.png"
+                  alt="Tacos Mak'Dal"
+                  class="relative h-full w-full object-contain product-img animate-float drop-shadow-[0_25px_25px_rgba(0,0,0,0.5)] select-none"
+                  onerror="this.outerHTML='<div class=&quot;text-7xl sm:text-8xl drop-shadow-2xl animate-float select-none&quot;>🌯</div>'"
+                  draggable="false"
+                />
+              </div>
+
+              <div id="tb-summary" class="space-y-2 text-sm border-t border-white/10 pt-4"></div>
+
+              <div class="border-t border-white/10 mt-4 pt-4 flex items-end justify-between">
+                <span class="text-white/70 text-sm font-semibold">Total</span>
+                <span class="font-display text-gold-400 text-4xl sm:text-5xl leading-none"><span id="tb-total">35</span><span class="text-base ml-1">DH</span></span>
+              </div>
+
+              <button id="tb-cta" class="tap mt-5 w-full inline-flex items-center justify-center gap-2 rounded-full bg-gold-400 hover:bg-gold-300 text-black px-6 py-3.5 font-black text-sm shadow-2xl shadow-gold-400/30 transition-colors">
+                <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                Ajouter au panier
+              </button>
+
+              <p class="text-[10px] text-white/40 text-center mt-3">Préparé minute · Servi en 8 min</p>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== NOUVEAUTÉS (carrousel défilant + scroll manuel) ========== -->
+  <section id="new" class="relative py-14 sm:py-24 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 mb-8 sm:mb-10">
+      <div class="flex items-end justify-between gap-4 sm:gap-6">
+        <div>
+          <span class="reveal text-xs sm:text-sm font-bold tracking-[0.3em] text-gold-400">· NOUVEAUTÉS ·</span>
+          <h2 class="reveal reveal-delay-1 mt-2 sm:mt-3 font-display text-white leading-none" style="font-size: clamp(2rem, 6vw, 4rem);">
+            Le <span class="italic text-brand-500">Naan</span> Burger
+          </h2>
+          <p class="reveal reveal-delay-2 mt-3 text-sm text-white/60 max-w-md md:hidden">
+            Pain naan moelleux, viandes premium, sauces secrètes.
+          </p>
+        </div>
+        <p class="reveal reveal-delay-2 hidden md:block text-white/60 max-w-sm">
+          Notre dernière innovation : un pain naan moelleux, des viandes premium, des sauces secrètes.
+        </p>
+      </div>
+
+      <!-- Controls (prev/next + indicateur) -->
+      <div class="reveal reveal-delay-3 mt-6 flex items-center justify-between gap-4">
+        <p class="text-xs text-white/40 hidden sm:flex items-center gap-2">
+          <i data-lucide="move-horizontal" class="w-4 h-4"></i>
+          Glisse ou utilise les flèches
+        </p>
+        <div class="flex items-center gap-2 ml-auto">
+          <button id="new-prev" class="tap w-11 h-11 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white flex items-center justify-center transition-colors" aria-label="Précédent">
+            <i data-lucide="arrow-left" class="w-5 h-5"></i>
+          </button>
+          <button id="new-next" class="tap w-11 h-11 rounded-full bg-gradient-to-r from-brand-500 to-brand-600 shadow-lg shadow-brand-600/40 text-white flex items-center justify-center hover:scale-105 transition-transform" aria-label="Suivant">
+            <i data-lucide="arrow-right" class="w-5 h-5"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Carousel scrollable manuellement -->
+    <div id="new-scroller" class="overflow-x-auto scrollbar-hide scroll-smooth snap-x snap-mandatory cursor-grab active:cursor-grabbing">
+      <div id="new-track" class="flex gap-4 sm:gap-5 px-4 sm:px-6 pb-2"></div>
+    </div>
+
+    <!-- Dots -->
+    <div id="new-dots" class="flex justify-center gap-1.5 mt-6"></div>
+  </section>
+
+  <!-- ========== POURQUOI ========== -->
+  <section id="why" class="relative py-14 sm:py-24 px-4 sm:px-6">
+    <div class="absolute inset-0 -z-10">
+      <div class="absolute left-1/2 top-0 -translate-x-1/2 w-[800px] h-[400px] rounded-full bg-brand-700/25 blur-[140px]"></div>
+    </div>
+
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-10 sm:mb-16">
+        <span class="reveal text-xs sm:text-sm font-bold tracking-[0.3em] text-gold-400">· POURQUOI MAK'DAL ? ·</span>
+        <h2 class="reveal reveal-delay-1 mt-2 sm:mt-3 font-display text-white leading-none max-w-3xl mx-auto" style="font-size: clamp(2rem, 7vw, 5rem);">
+          Plus qu'un fast-food.<br>
+          <span class="italic text-brand-500">Une obsession.</span>
+        </h2>
+      </div>
+
+      <div id="why-grid" class="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6"></div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER / LOCALISATION ========== -->
+  <footer id="contact" class="relative pt-14 sm:pt-20 pb-8 sm:pb-10 px-4 sm:px-6 border-t border-white/5">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid lg:grid-cols-2 gap-6 sm:gap-10 mb-10 sm:mb-16">
+        <div>
+          <span class="reveal text-sm font-bold tracking-[0.3em] text-gold-400">· NOUS TROUVER ·</span>
+          <h2 class="reveal reveal-delay-1 mt-3 font-display text-white leading-none" style="font-size: clamp(2rem, 5vw, 4rem);">
+            Passe nous voir.<br><span class="text-brand-500">On t'attend.</span>
+          </h2>
+
+          <div class="reveal reveal-delay-2 mt-8 space-y-4">
+            <div class="flex items-start gap-4 p-5 rounded-2xl bg-white/[0.04] backdrop-blur-xl border border-white/10">
+              <div class="w-12 h-12 rounded-xl bg-brand-600/20 border border-brand-600/40 flex items-center justify-center shrink-0">
+                <i data-lucide="map-pin" class="w-5 h-5 text-brand-500"></i>
+              </div>
+              <div>
+                <p class="font-bold text-white">Notre adresse</p>
+                <p class="text-white/60 text-sm mt-1">Boulevard Mohammed V<br>60000 Oujda, Maroc</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4 p-5 rounded-2xl bg-white/[0.04] backdrop-blur-xl border border-white/10">
+              <div class="w-12 h-12 rounded-xl bg-gold-400/20 border border-gold-400/40 flex items-center justify-center shrink-0">
+                <i data-lucide="clock" class="w-5 h-5 text-gold-400"></i>
+              </div>
+              <div>
+                <p class="font-bold text-white">Horaires</p>
+                <p class="text-white/60 text-sm mt-1">Lun – Dim : 11h00 – 02h00<br><span class="text-gold-400 font-semibold">Ouvert tard, même le week-end</span></p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-4 p-5 rounded-2xl bg-white/[0.04] backdrop-blur-xl border border-white/10">
+              <div class="w-12 h-12 rounded-xl bg-green-500/20 border border-green-500/40 flex items-center justify-center shrink-0">
+                <i data-lucide="phone" class="w-5 h-5 text-green-400"></i>
+              </div>
+              <div>
+                <p class="font-bold text-white">Commandes</p>
+                <p class="text-white/60 text-sm mt-1">+212 6 00 00 00 00</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="reveal reveal-delay-3 relative rounded-2xl sm:rounded-3xl overflow-hidden border border-white/10 min-h-[320px] sm:min-h-[460px] bg-black/40 group">
+          <!-- Google Maps embed -->
+          <iframe
+            src="https://maps.google.com/maps?q=Mak%27Dal+Oujda&t=&z=14&ie=UTF8&iwloc=&output=embed"
+            class="absolute inset-0 w-full h-full grayscale-[30%] contrast-110 saturate-150 group-hover:grayscale-0 transition-all duration-500"
+            style="border:0; filter: hue-rotate(310deg) saturate(1.4);"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            allowfullscreen
+            title="Mak'Dal Oujda — Localisation">
+          </iframe>
+
+          <!-- Overlay gradients for legibility -->
+          <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent"></div>
+          <div class="pointer-events-none absolute inset-0 ring-1 ring-inset ring-white/10 rounded-2xl sm:rounded-3xl"></div>
+
+          <!-- Status badge top-left -->
+          <div class="absolute top-4 left-4 inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-xl border border-white/20 z-10">
+            <span class="relative flex w-2 h-2">
+              <span class="absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75 animate-ping"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-green-400"></span>
+            </span>
+            <span class="text-[11px] font-bold text-white tracking-wider">OUVERT MAINTENANT</span>
+          </div>
+
+          <!-- Pin Mak'Dal floating badge -->
+          <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-full z-10 pointer-events-none">
+            <div class="relative animate-float">
+              <div class="px-4 py-2 rounded-full bg-gradient-to-r from-brand-500 to-brand-600 shadow-2xl shadow-brand-600/60 border-2 border-white flex items-center gap-2">
+                <i data-lucide="map-pin" class="w-4 h-4 text-gold-400" stroke-width="2.5"></i>
+                <span class="font-black text-white text-sm tracking-wide">Mak'Dal</span>
+              </div>
+              <div class="w-0 h-0 mx-auto border-l-[8px] border-r-[8px] border-t-[10px] border-l-transparent border-r-transparent border-t-brand-600"></div>
+            </div>
+          </div>
+
+          <!-- Bottom info card -->
+          <div class="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 p-4 sm:p-5 rounded-xl sm:rounded-2xl bg-black/60 backdrop-blur-xl border border-white/10 z-10">
+            <div class="flex items-start justify-between gap-3">
+              <div class="min-w-0">
+                <p class="font-display text-white text-2xl sm:text-3xl leading-none">Restaurant Mak'Dal</p>
+                <p class="text-white/70 text-xs sm:text-sm mt-1 truncate">Bd Mohammed V · Oujda Centre</p>
+              </div>
+              <a href="https://www.google.com/maps/dir/?api=1&destination=Mak'Dal+Oujda" target="_blank" rel="noopener" class="tap shrink-0 inline-flex items-center gap-1.5 px-3 sm:px-4 py-2 sm:py-2.5 rounded-full bg-gold-400 text-black font-bold text-xs sm:text-sm hover:scale-105 transition-transform">
+                <i data-lucide="navigation" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i>
+                <span class="hidden sm:inline">Itinéraire</span>
+                <span class="sm:hidden">Y aller</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col md:flex-row gap-6 items-center justify-between pt-10 border-t border-white/10">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center shadow-lg shadow-brand-600/40">
+            <i data-lucide="flame" class="w-5 h-5 text-gold-400" stroke-width="2.5"></i>
+          </div>
+          <p class="font-black text-white text-lg">MAK<span class="text-brand-500">'</span>DAL <span class="text-white/40 font-normal text-sm ml-2">© 2026 — Oujda</span></p>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <a href="#" class="w-10 h-10 rounded-xl bg-white/5 hover:bg-brand-600 border border-white/10 flex items-center justify-center text-white/70 hover:text-white transition-colors"><i data-lucide="instagram" class="w-4 h-4"></i></a>
+          <a href="#" class="w-10 h-10 rounded-xl bg-white/5 hover:bg-brand-600 border border-white/10 flex items-center justify-center text-white/70 hover:text-white transition-colors"><i data-lucide="facebook" class="w-4 h-4"></i></a>
+          <a href="#" class="w-10 h-10 rounded-xl bg-white/5 hover:bg-brand-600 border border-white/10 flex items-center justify-center text-white/70 hover:text-white transition-colors"><i data-lucide="phone" class="w-4 h-4"></i></a>
+        </div>
+
+        <p class="text-xs text-white/40">Conçu avec passion à Oujda 🇲🇦</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ============ DATA — vrais produits & prix Mak'Dal ============
+    const enc = (s) => encodeURI(s);
+
+    const MENU = {
+      burgers: [
+        { name: "B1 · Cheese",        desc: "Steak haché, cheddar",                                        price: 25, img: "BURGER/CHEESE.png" },
+        { name: "B2 · Doublecheese",  desc: "2× steaks hachés, cheddar",                                   price: 30, img: "BURGER/DOUBLECHEESE.png" },
+        { name: "B3 · Giant",         desc: "3× steaks, cheddar, salade",                                  price: 35, img: "BURGER/GIANT.png" },
+        { name: "B4 · Chicken Burger",desc: "Poulet pané, cheddar, salade",                                price: 30, img: "BURGER/CHICKEN BURGER.png" },
+        { name: "B5 · Double Chicken",desc: "2× poulets panés, cheddar, salade",                           price: 40, img: "BURGER/DOUBLE CHICKEN BURGER.png" },
+        { name: "B6 · King Dal",      desc: "2× steaks hachés, cheddar, rosty, salade, tomate",            price: 45, img: "BURGER/KING DAL.png", tag: "Best-seller" },
+        { name: "B7 · Mix Mak'Dal",   desc: "Steak haché, poulet pané, cheddar, rosty, salade, tomate",    price: 45, img: "BURGER/MIX MAK'DAL.png", tag: "Signature" },
+      ],
+      tacos: [
+        { name: "T1 · Escalope",                       desc: "Escalope, sauce au choix",                price: 35, img: "BURGER/CHICKEN BURGER.png" },
+        { name: "T2 · Steaks · Jambon de Dinde",       desc: "Steaks, jambon de dinde",                 price: 35, img: "BURGER/CHEESE.png" },
+        { name: "T3 · Tandoori / Curry",               desc: "Poulet tandoori ou curry",                price: 35, img: "NAAN/LE TANDDORI.png" },
+        { name: "T4 · Steak · Jambon · Tenders",       desc: "Steak, jambon de dinde, tenders",         price: 45, img: "BURGER/DOUBLECHEESE.png" },
+        { name: "T5 · Escalope · J.Dinde · Nuggets",   desc: "Escalope, jambon de dinde, nuggets",      price: 45, img: "BURGER/CHICKEN BURGER.png" },
+        { name: "T9 · 4 Viandes Rosty",                desc: "Cordon bleu, j.dinde, steak, rosty",      price: 50, img: "BURGER/GIANT.png", tag: "XXL" },
+        { name: "T12 · Cordon Bleu Spécial",           desc: "Cordon bleu, steak, j.dinde, merguez",    price: 50, img: "BURGER/MIX MAK'DAL.png", tag: "XXL" },
+        { name: "T13 · Crispy Lover",                  desc: "Nuggets, tenders, jambon de dinde",       price: 45, img: "BURGER/DOUBLE CHICKEN BURGER.png" },
+      ],
+      naan: [
+        { name: "Le Naan Dal",     desc: "La signature : steak, poulet, cheddar, sauce maison",  price: 45, img: "NAAN/LE NAAN DAL.png", tag: "Signature" },
+        { name: "Le Tandoori",     desc: "Poulet mariné tandoori, salade, tomate",                price: 40, img: "NAAN/LE TANDDORI.png" },
+        { name: "Le Cordon Bleu",  desc: "Cordon bleu, cheddar, salade, sauce blanche",           price: 45, img: "NAAN/LE CORDON BLEU.png" },
+        { name: "Le Curry",        desc: "Poulet curry crémeux, oignons confits",                 price: 40, img: "NAAN/LE CURRY.png" },
+        { name: "Le Chawarma",     desc: "Poulet chawarma, sauce algérienne",                     price: 45, img: "NAAN/LE CHAWARMA.png" },
+        { name: "Le Farmer",       desc: "Poulet, bacon de dinde, cheddar fondu",                 price: 45, img: "NAAN/LE FARMER.png" },
+        { name: "L'Imperial",      desc: "Steak haché, jambon, cheddar, œuf",                     price: 50, img: "NAAN/L'IMPERIAL.png" },
+        { name: "Le Mix",          desc: "Mix viandes, sauce secrète maison",                     price: 50, img: "NAAN/LE MIX.png" },
+        { name: "Le Tenders",      desc: "Tenders croustillants, sauce algérienne",               price: 40, img: "NAAN/LE TENDERS.png" },
+      ],
+      "naan-burger": [
+        { name: "Le Master",  desc: "Naan moelleux, double steak, cheddar, sauce",   price: 50, img: "NAAN BURGER/LE MASTER.png", tag: "Nouveau" },
+        { name: "Le Mega",    desc: "Triple viande, cheddar, rosty, sauce maison",   price: 55, img: "NAAN BURGER/LE MEGA.png", tag: "XXL" },
+        { name: "Le Rosty",   desc: "Steak, rosty, cheddar fondu, salade",           price: 45, img: "NAAN BURGER/LE ROSTY.png" },
+        { name: "Le Tower",   desc: "Tour gourmande de 4 étages",                    price: 55, img: "NAAN BURGER/LE TOWER.png", tag: "Légendaire" },
+      ],
+      pizzas: [
+        { name: "P1 · Margherita",     desc: "Sauce tomate, mozzarella, origan",                            price: 50, img: "PIZZA/MARGUERITA.png" },
+        { name: "P2 · Thon",           desc: "Sauce tomate, mozzarella, thon, olives",                      price: 60, img: "PIZZA/THON.png" },
+        { name: "P3 · Chicken",        desc: "Poulet, mozzarella, poivrons, olives",                        price: 65, img: "PIZZA/CHICKEN.png" },
+        { name: "P4 · Parisienne",     desc: "Mozzarella, viande hachée, champignons",                      price: 65, img: "PIZZA/PARISIENNE.png" },
+        { name: "P5 · 4 Fromages",     desc: "Assortiment de 4 fromages",                                   price: 70, img: "PIZZA/4 FROMAGES.png" },
+        { name: "P6 · New Mak'Dal",    desc: "Pepperoni, viande hachée, champignons, jambon",               price: 75, img: "PIZZA/NEW MAK'DAL.png", tag: "Signature" },
+        { name: "P7 · Orientale",      desc: "Pepperoni, mozzarella, poivrons, oignons",                    price: 70, img: "PIZZA/NEW ORIENTAL.png" },
+        { name: "P8 · Suprême",        desc: "Gruyère, pommes de terre, chèvre, viande hachée",             price: 75, img: "PIZZA/NEW SUPREME.png" },
+        { name: "P9 · Regina",         desc: "Mozzarella, jambon de dinde, champignons",                    price: 65, img: "PIZZA/NEW REGINA.png" },
+        { name: "P10 · Fermière",      desc: "Mozzarella, poulet, pommes de terre, oignons",                price: 70, img: "PIZZA/FERMIERE.png" },
+        { name: "P11 · Fruit de Mer",  desc: "Crevettes, calamars, champignons, olives",                    price: 85, img: "PIZZA/FRUIT DE MER.png", tag: "Premium" },
+        { name: "P12 · Chèvre Miel",   desc: "Gruyère, chèvre, viande de chou, miel",                       price: 75, img: "PIZZA/NEW CHEVRE MIEL.png" },
+        { name: "P13 · 4 Saisons",     desc: "Assortiment de 4 viandes",                                    price: 80, img: "PIZZA/PIZZA 4 SAISONS.png" },
+      ],
+      sandwichs: [
+        { name: "S1 · Le Majestic",   desc: "Steak, jalapeños, cordon bleu, jambon, filet de poulet",  price: 45, img: "SANDWICH/LE MAJESTIC.png", tag: "Signature" },
+        { name: "S2 · Asia",          desc: "Poulet mariné tandoori, salade, tomate, cheddar",         price: 35, img: "SANDWICH/ASIA.png" },
+        { name: "S3 · India",         desc: "Poulet mariné au curry, salade, tomate, cheddar",         price: 35, img: "SANDWICH/INDIA.png" },
+        { name: "S4 · Triple Steak",  desc: "3 steaks, jambon de dinde, salade, tomate, cheddar",      price: 45, img: "SANDWICH/TRIPLE STEAK.png", tag: "XXL" },
+        { name: "S5 · Royal",         desc: "Steak, poulet mariné, salade, cheddar, crème fraîche",    price: 40, img: "SANDWICH/ROYAL.png" },
+        { name: "S6 · Mak Dal",       desc: "Steak, filet de poulet, rosty, salade, tomate, cheddar",  price: 45, img: "SANDWICH/MAK DAL.png" },
+        { name: "S7 · Le Merguez",    desc: "Merguez, steak, jambon de dinde, salade, tomate",         price: 40, img: "SANDWICH/MERGUEZ.png" },
+        { name: "S8 · Le Nabab",      desc: "Poulet épicé chawarma, salade, tomate, cheddar",          price: 35, img: "SANDWICH/LE NABAB.png" },
+      ],
+    };
+
+    const TABS = [
+      { id: "burgers",      label: "Burgers",     icon: "🍔" },
+      { id: "naan",         label: "Naan",        icon: "🫓" },
+      { id: "naan-burger",  label: "Naan Burger", icon: "🔥" },
+      { id: "pizzas",       label: "Pizzas",      icon: "🍕" },
+      { id: "sandwichs",    label: "Sandwichs",   icon: "🥪" },
+    ];
+
+    const FEATURES = [
+      { icon: "flame",     title: "Viande Fraîche",    desc: "Bœuf 100% marocain, livré chaque matin par nos bouchers partenaires d'Oujda." },
+      { icon: "chef-hat",  title: "Recettes Secrètes", desc: "Sauces maison et marinades inspirées des saveurs de l'Oriental, jamais industrielles." },
+      { icon: "timer",     title: "Service Express",   desc: "Préparé minute, servi en moins de 8 minutes. Livraison rapide partout à Oujda." },
+    ];
+
+    // ============ RENDER TABS ============
+    const tabsEl = document.getElementById('tabs');
+    TABS.forEach((tab, i) => {
+      const btn = document.createElement('button');
+      btn.className = `tab-btn ${i === 0 ? 'active' : 'bg-white/5 text-white/70 border border-white/10'} shrink-0 rounded-full px-4 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-bold flex items-center gap-1.5 sm:gap-2 hover:scale-105 whitespace-nowrap`;
+      btn.dataset.tab = tab.id;
+      btn.innerHTML = `<span class="text-lg">${tab.icon}</span> ${tab.label}`;
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => {
+          b.classList.remove('active');
+          b.classList.add('bg-white/5', 'text-white/70', 'border', 'border-white/10');
+        });
+        btn.classList.add('active');
+        btn.classList.remove('bg-white/5', 'text-white/70', 'border', 'border-white/10');
+        renderMenu(tab.id);
+      });
+      tabsEl.appendChild(btn);
+    });
+
+    // ============ RENDER MENU GRID ============
+    function renderMenu(tabId) {
+      const grid = document.getElementById('menu-grid');
+      grid.innerHTML = '';
+      MENU[tabId].forEach((item, i) => {
+        const card = document.createElement('article');
+        card.className = `group relative overflow-hidden rounded-3xl bg-gradient-to-br from-white/[0.06] to-white/[0.02] backdrop-blur-xl border border-white/10 shadow-2xl hover-lift`;
+        card.style.animation = `fadeUp .6s cubic-bezier(0.22,1,0.36,1) ${i * 0.06}s both`;
+        card.innerHTML = `
+          <div class="relative aspect-square overflow-hidden bg-gradient-to-br from-brand-500 via-brand-600 to-brand-800">
+            <div class="absolute inset-0 halo-gold opacity-60"></div>
+            <div class="absolute inset-0 spotlight"></div>
+            <div class="absolute -top-10 -right-10 w-32 sm:w-40 h-32 sm:h-40 rounded-full bg-gold-400/30 blur-3xl"></div>
+            <img src="${enc(item.img)}" alt="${item.name}" class="relative w-full h-full object-contain p-3 sm:p-6 product-img" onerror="this.style.opacity=0.3" />
+            ${item.tag ? `<span class="absolute top-2 left-2 sm:top-3 sm:left-3 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full bg-gold-400 text-black text-[9px] sm:text-[10px] font-black tracking-wider z-10">${item.tag}</span>` : ''}
+            <div class="absolute top-2 right-2 sm:top-3 sm:right-3 px-2 sm:px-3 py-1 sm:py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20 z-10">
+              <p class="text-white font-black text-[11px] sm:text-sm whitespace-nowrap">${item.price} <span class="text-gold-400">DH</span></p>
+            </div>
+          </div>
+          <div class="p-3 sm:p-5">
+            <h3 class="font-black text-white text-sm sm:text-lg leading-tight">${item.name}</h3>
+            <p class="text-white/55 text-[10px] sm:text-xs mt-1 line-clamp-2 min-h-[1.75rem] sm:min-h-[2rem]">${item.desc}</p>
+            <div class="mt-3 sm:mt-4 flex items-center justify-between gap-2">
+              <div class="hidden sm:flex items-center gap-0.5">
+                ${[...Array(5)].map(() => `<i data-lucide="star" class="w-3.5 h-3.5 text-gold-400" style="fill:currentColor"></i>`).join('')}
+              </div>
+              <button class="tap w-full sm:w-auto inline-flex items-center justify-center gap-1.5 text-[11px] sm:text-xs font-bold text-white bg-brand-500 hover:bg-brand-600 px-3 py-1.5 rounded-full transition-colors">
+                <i data-lucide="plus" class="w-3 h-3"></i> Ajouter
+              </button>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+      lucide.createIcons();
+    }
+    renderMenu('burgers');
+
+    // ============ TACOS BUILDER ============
+    const TB_SIZES = [
+      { id: "M",  label: "M",  meats: 1, price: 35, desc: "1 viande" },
+      { id: "L",  label: "L",  meats: 2, price: 35, desc: "2 viandes" },
+      { id: "XL", label: "XL", meats: 3, price: 45, desc: "3 viandes" },
+      { id: "XXL", label: "XXL", meats: 4, price: 50, desc: "4 viandes" },
+    ];
+
+    const TB_MEATS = [
+      { id: "escalope",     label: "Escalope",        emoji: "🍗" },
+      { id: "steak",        label: "Steak haché",     emoji: "🥩" },
+      { id: "jambon",       label: "Jambon de dinde", emoji: "🥓" },
+      { id: "tandoori",     label: "Poulet Tandoori", emoji: "🌶️" },
+      { id: "curry",        label: "Poulet Curry",    emoji: "🍛" },
+      { id: "tenders",      label: "Tenders",         emoji: "🍗" },
+      { id: "cordon",       label: "Cordon Bleu",     emoji: "🧀" },
+      { id: "nuggets",      label: "Nuggets",         emoji: "🍟" },
+      { id: "merguez",      label: "Merguez",         emoji: "🌭" },
+      { id: "rosty",        label: "Rosty",           emoji: "🥔" },
+      { id: "jalapenos",    label: "Jalapeños",       emoji: "🌶️" },
+      { id: "chawarma",     label: "Chawarma",        emoji: "🥙" },
+    ];
+
+    const TB_SAUCES = [
+      "Ketchup", "Mayonnaise", "Barbecue", "Sauce Blanche",
+      "Andalouse", "Algérienne", "Samouraï", "Chili Thai",
+    ];
+
+    const TB_EXTRAS = [
+      { id: "cheddar", label: "Cheddar",          price: 5,  emoji: "🧀" },
+      { id: "oeuf",    label: "Œuf",              price: 5,  emoji: "🥚" },
+      { id: "jambonx", label: "Jambon de dinde",  price: 5,  emoji: "🥓" },
+      { id: "rostyx",  label: "Rosty",            price: 10, emoji: "🥔" },
+      { id: "viande",  label: "Viande au choix",  price: 15, emoji: "🥩" },
+      { id: "fromage", label: "Suppl. Fromage",   price: 8,  emoji: "🧀" },
+    ];
+
+    const tbState = {
+      size: TB_SIZES[0],
+      meats: [],
+      sauces: [],
+      extras: [],
+    };
+
+    // ===== Render sizes =====
+    const tbSizes = document.getElementById('tb-sizes');
+    tbSizes.innerHTML = TB_SIZES.map((s, i) => `
+      <button data-size="${s.id}" class="tb-size tap relative rounded-2xl border-2 ${i === 0 ? 'border-gold-400 bg-gold-400/10' : 'border-white/10 bg-white/[0.03] hover:border-white/30'} p-3 sm:p-4 text-left transition-all">
+        <p class="font-display text-white text-2xl sm:text-3xl leading-none">${s.label}</p>
+        <p class="text-[10px] sm:text-xs text-white/50 mt-1">${s.desc}</p>
+        <p class="text-xs sm:text-sm font-black text-gold-400 mt-2">${s.price} DH</p>
+      </button>
+    `).join('');
+
+    // ===== Render meats =====
+    const tbMeats = document.getElementById('tb-meats');
+    tbMeats.innerHTML = TB_MEATS.map(m => `
+      <button data-meat="${m.id}" class="tb-meat tap rounded-xl sm:rounded-2xl border-2 border-white/10 bg-white/[0.03] hover:border-white/30 p-2.5 sm:p-3 text-left transition-all flex items-center gap-2">
+        <span class="text-xl sm:text-2xl">${m.emoji}</span>
+        <span class="text-xs sm:text-sm font-semibold text-white/90 leading-tight">${m.label}</span>
+      </button>
+    `).join('');
+
+    // ===== Render sauces =====
+    const tbSauces = document.getElementById('tb-sauces');
+    tbSauces.innerHTML = TB_SAUCES.map(s => `
+      <button data-sauce="${s}" class="tb-sauce tap rounded-full border border-white/10 bg-white/[0.03] hover:border-white/30 px-3 py-2 text-xs sm:text-sm font-semibold text-white/80 transition-all">${s}</button>
+    `).join('');
+
+    // ===== Render extras =====
+    const tbExtras = document.getElementById('tb-extras');
+    tbExtras.innerHTML = TB_EXTRAS.map(e => `
+      <button data-extra="${e.id}" class="tb-extra tap rounded-xl border-2 border-white/10 bg-white/[0.03] hover:border-white/30 p-2.5 sm:p-3 transition-all flex items-center justify-between gap-2">
+        <span class="flex items-center gap-2 min-w-0">
+          <span class="text-lg sm:text-xl shrink-0">${e.emoji}</span>
+          <span class="text-xs sm:text-sm font-semibold text-white/90 truncate">${e.label}</span>
+        </span>
+        <span class="text-xs font-black text-gold-400 shrink-0">+${e.price}</span>
+      </button>
+    `).join('');
+
+    // ===== Logic =====
+    const tbCounter = document.getElementById('tb-meats-counter');
+    const tbSummary = document.getElementById('tb-summary');
+    const tbSummaryTitle = document.getElementById('tb-summary-title');
+    const tbTotal = document.getElementById('tb-total');
+
+    const updateTB = () => {
+      // Counter
+      tbCounter.textContent = `${tbState.meats.length} / ${tbState.size.meats} viandes`;
+      tbCounter.classList.toggle('bg-green-500/20', tbState.meats.length === tbState.size.meats);
+      tbCounter.classList.toggle('border-green-500/40', tbState.meats.length === tbState.size.meats);
+      tbCounter.classList.toggle('text-green-400', tbState.meats.length === tbState.size.meats);
+
+      // Total
+      const extrasTotal = tbState.extras.reduce((sum, eId) => sum + (TB_EXTRAS.find(x => x.id === eId)?.price || 0), 0);
+      const total = tbState.size.price + extrasTotal;
+      tbTotal.textContent = total;
+
+      // Summary
+      tbSummaryTitle.textContent = `Tacos ${tbState.size.label}`;
+      const meatNames = tbState.meats.map(id => TB_MEATS.find(m => m.id === id)?.label).filter(Boolean);
+      const extraNames = tbState.extras.map(id => {
+        const e = TB_EXTRAS.find(x => x.id === id);
+        return e ? `${e.label} <span class="text-gold-400">+${e.price} DH</span>` : '';
+      }).filter(Boolean);
+
+      let html = `<div class="flex items-start gap-2"><span class="text-white/40 shrink-0">•</span><p class="text-white/80"><span class="text-white/50">Taille :</span> <span class="font-bold">${tbState.size.label}</span> <span class="text-gold-400 font-black">${tbState.size.price} DH</span></p></div>`;
+      html += `<div class="flex items-start gap-2"><span class="text-white/40 shrink-0">•</span><p class="text-white/80"><span class="text-white/50">Viandes :</span> ${meatNames.length ? meatNames.join(', ') : '<span class="text-white/30 italic">à choisir</span>'}</p></div>`;
+      html += `<div class="flex items-start gap-2"><span class="text-white/40 shrink-0">•</span><p class="text-white/80"><span class="text-white/50">Sauces :</span> ${tbState.sauces.length ? tbState.sauces.join(', ') : '<span class="text-white/30 italic">à choisir</span>'}</p></div>`;
+      if (extraNames.length) html += `<div class="flex items-start gap-2"><span class="text-white/40 shrink-0">•</span><p class="text-white/80"><span class="text-white/50">Suppl. :</span> ${extraNames.join(', ')}</p></div>`;
+      tbSummary.innerHTML = html;
+
+      // Active states
+      document.querySelectorAll('.tb-size').forEach(b => {
+        const active = b.dataset.size === tbState.size.id;
+        b.classList.toggle('border-gold-400', active);
+        b.classList.toggle('bg-gold-400/10', active);
+        b.classList.toggle('border-white/10', !active);
+        b.classList.toggle('bg-white/[0.03]', !active);
+      });
+      document.querySelectorAll('.tb-meat').forEach(b => {
+        const active = tbState.meats.includes(b.dataset.meat);
+        b.classList.toggle('border-brand-500', active);
+        b.classList.toggle('bg-brand-500/15', active);
+        b.classList.toggle('border-white/10', !active);
+      });
+      document.querySelectorAll('.tb-sauce').forEach(b => {
+        const active = tbState.sauces.includes(b.dataset.sauce);
+        b.classList.toggle('bg-gold-400', active);
+        b.classList.toggle('text-black', active);
+        b.classList.toggle('border-gold-400', active);
+        b.classList.toggle('font-black', active);
+        b.classList.toggle('border-white/10', !active);
+        b.classList.toggle('bg-white/[0.03]', !active);
+        b.classList.toggle('text-white/80', !active);
+      });
+      document.querySelectorAll('.tb-extra').forEach(b => {
+        const active = tbState.extras.includes(b.dataset.extra);
+        b.classList.toggle('border-brand-500', active);
+        b.classList.toggle('bg-brand-500/15', active);
+        b.classList.toggle('border-white/10', !active);
+      });
+    };
+
+    // Listeners
+    tbSizes.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-size]');
+      if (!btn) return;
+      tbState.size = TB_SIZES.find(s => s.id === btn.dataset.size);
+      // Trim meats if too many
+      if (tbState.meats.length > tbState.size.meats) tbState.meats = tbState.meats.slice(0, tbState.size.meats);
+      updateTB();
+    });
+
+    tbMeats.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-meat]');
+      if (!btn) return;
+      const id = btn.dataset.meat;
+      if (tbState.meats.includes(id)) {
+        tbState.meats = tbState.meats.filter(x => x !== id);
+      } else if (tbState.meats.length < tbState.size.meats) {
+        tbState.meats.push(id);
+      } else {
+        // Replace oldest
+        tbState.meats = [...tbState.meats.slice(1), id];
+      }
+      updateTB();
+    });
+
+    tbSauces.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-sauce]');
+      if (!btn) return;
+      const id = btn.dataset.sauce;
+      if (tbState.sauces.includes(id)) {
+        tbState.sauces = tbState.sauces.filter(x => x !== id);
+      } else if (tbState.sauces.length < 2) {
+        tbState.sauces.push(id);
+      } else {
+        tbState.sauces = [...tbState.sauces.slice(1), id];
+      }
+      updateTB();
+    });
+
+    tbExtras.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-extra]');
+      if (!btn) return;
+      const id = btn.dataset.extra;
+      tbState.extras = tbState.extras.includes(id)
+        ? tbState.extras.filter(x => x !== id)
+        : [...tbState.extras, id];
+      updateTB();
+    });
+
+    document.getElementById('tb-cta').addEventListener('click', () => {
+      if (tbState.meats.length < tbState.size.meats) {
+        alert(`Choisis ${tbState.size.meats} viande${tbState.size.meats > 1 ? 's' : ''} pour ton tacos ${tbState.size.label} 🌯`);
+        return;
+      }
+      alert(`Tacos ${tbState.size.label} ajouté au panier ! 🌯\nTotal : ${tbTotal.textContent} DH`);
+    });
+
+    updateTB();
+
+    // ============ RENDER NEW (carrousel manuel — drag, prev/next, dots) ============
+    const newTrack = document.getElementById('new-track');
+    const newScroller = document.getElementById('new-scroller');
+    const newDots = document.getElementById('new-dots');
+    const newPrevBtn = document.getElementById('new-prev');
+    const newNextBtn = document.getElementById('new-next');
+    const newItems = [...MENU['naan-burger'], ...MENU['naan']];
+
+    const renderNewCard = (item) => `
+      <div class="snap-start shrink-0 w-[78vw] sm:w-72 md:w-80 group relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand-700 to-brand-900 border border-white/10 shadow-2xl">
+        <div class="relative aspect-square overflow-hidden">
+          <div class="absolute inset-0 halo-gold opacity-70"></div>
+          <div class="absolute inset-0 spotlight"></div>
+          <div class="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-gold-400/40 blur-3xl"></div>
+          <img src="${enc(item.img)}" alt="${item.name}" class="relative w-full h-full object-contain p-6 product-img pointer-events-none" onerror="this.style.opacity=0.3" draggable="false" />
+          ${item.tag ? `<span class="absolute top-3 left-3 px-3 py-1 rounded-full bg-gold-400 text-black text-[10px] font-black tracking-wider">${item.tag}</span>` : ''}
+        </div>
+        <div class="p-4 sm:p-5 bg-black/30 backdrop-blur-xl">
+          <div class="flex items-center justify-between gap-3">
+            <h3 class="font-display text-white text-xl sm:text-2xl leading-none">${item.name}</h3>
+            <p class="font-black text-gold-400 whitespace-nowrap text-sm sm:text-base">${item.price} DH</p>
+          </div>
+          <p class="text-white/60 text-xs mt-2 line-clamp-2">${item.desc}</p>
+        </div>
+      </div>
+    `;
+    newTrack.innerHTML = newItems.map(renderNewCard).join('');
+
+    // Dots
+    newItems.forEach((_, i) => {
+      const dot = document.createElement('button');
+      dot.className = 'h-1.5 rounded-full bg-white/20 transition-all';
+      dot.dataset.idx = i;
+      dot.setAttribute('aria-label', `Aller au slide ${i + 1}`);
+      dot.style.width = i === 0 ? '24px' : '6px';
+      if (i === 0) dot.classList.replace('bg-white/20', 'bg-gold-400');
+      newDots.appendChild(dot);
+    });
+
+    const cardWidth = () => {
+      const first = newTrack.querySelector('div');
+      if (!first) return 320;
+      const gap = parseInt(getComputedStyle(newTrack).gap) || 16;
+      return first.getBoundingClientRect().width + gap;
+    };
+
+    const updateDots = () => {
+      const idx = Math.round(newScroller.scrollLeft / cardWidth());
+      [...newDots.children].forEach((d, i) => {
+        const active = i === idx;
+        d.style.width = active ? '24px' : '6px';
+        d.classList.toggle('bg-gold-400', active);
+        d.classList.toggle('bg-white/20', !active);
+      });
+    };
+
+    newPrevBtn.addEventListener('click', () => {
+      newScroller.scrollBy({ left: -cardWidth(), behavior: 'smooth' });
+    });
+    newNextBtn.addEventListener('click', () => {
+      newScroller.scrollBy({ left: cardWidth(), behavior: 'smooth' });
+    });
+
+    newDots.addEventListener('click', (e) => {
+      const btn = e.target.closest('button');
+      if (!btn) return;
+      newScroller.scrollTo({ left: cardWidth() * Number(btn.dataset.idx), behavior: 'smooth' });
+    });
+
+    let scrollTimer;
+    newScroller.addEventListener('scroll', () => {
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(updateDots, 80);
+    });
+
+    // Drag-to-scroll (desktop)
+    let isDown = false, startX, startScroll;
+    newScroller.addEventListener('mousedown', (e) => {
+      isDown = true;
+      startX = e.pageX - newScroller.offsetLeft;
+      startScroll = newScroller.scrollLeft;
+      newScroller.style.scrollBehavior = 'auto';
+    });
+    ['mouseleave', 'mouseup'].forEach(ev =>
+      newScroller.addEventListener(ev, () => {
+        isDown = false;
+        newScroller.style.scrollBehavior = 'smooth';
+      })
+    );
+    newScroller.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - newScroller.offsetLeft;
+      newScroller.scrollLeft = startScroll - (x - startX) * 1.4;
+    });
+
+    // ============ RENDER FEATURES ============
+    const whyGrid = document.getElementById('why-grid');
+    FEATURES.forEach((f, i) => {
+      const div = document.createElement('div');
+      div.className = `reveal reveal-delay-${i + 1} group relative p-5 sm:p-8 rounded-2xl sm:rounded-3xl bg-gradient-to-br from-white/[0.06] to-white/[0.02] backdrop-blur-xl border border-white/10 overflow-hidden hover-lift`;
+      div.innerHTML = `
+        <div class="absolute -top-10 -right-10 w-32 sm:w-40 h-32 sm:h-40 rounded-full bg-brand-600/20 blur-2xl group-hover:bg-brand-600/40 transition-colors"></div>
+        <div class="relative">
+          <div class="w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center shadow-xl shadow-brand-600/40 mb-4 sm:mb-6 group-hover:rotate-6 transition-transform">
+            <i data-lucide="${f.icon}" class="w-6 h-6 sm:w-7 sm:h-7 text-gold-400" stroke-width="2.2"></i>
+          </div>
+          <h3 class="font-black text-white text-lg sm:text-2xl mb-2 sm:mb-3">${f.title}</h3>
+          <p class="text-sm sm:text-base text-white/60 leading-relaxed">${f.desc}</p>
+          <div class="mt-4 sm:mt-6 text-4xl sm:text-5xl font-black text-white/5 group-hover:text-white/10 transition-colors">0${i + 1}</div>
+        </div>
+      `;
+      whyGrid.appendChild(div);
+    });
+
+    // ============ INIT LUCIDE ============
+    lucide.createIcons();
+
+    // ============ NAVBAR SCROLL ============
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 30) {
+        navbar.classList.remove('bg-white/5', 'backdrop-blur-md');
+        navbar.classList.add('bg-black/60', 'backdrop-blur-xl', 'shadow-2xl', 'shadow-brand-900/30');
+      } else {
+        navbar.classList.add('bg-white/5', 'backdrop-blur-md');
+        navbar.classList.remove('bg-black/60', 'backdrop-blur-xl', 'shadow-2xl', 'shadow-brand-900/30');
+      }
+    });
+
+    // ============ MOBILE MENU ============
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    menuToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      const icon = document.getElementById('menu-icon');
+      icon.setAttribute('data-lucide', mobileMenu.classList.contains('hidden') ? 'menu' : 'x');
+      lucide.createIcons();
+    });
+
+    // ============ REVEAL ON SCROLL ============
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          if (e.target.querySelector('.underline-grow')) {
+            e.target.querySelector('.underline-grow').classList.add('in');
+          }
+        }
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+
+    // ============ HERO PARALLAX ============
+    const heroVisual = document.getElementById('hero-visual');
+    const heroBurger = document.getElementById('hero-burger');
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      if (y < 800 && heroVisual) {
+        heroVisual.style.transform = `translateY(${y * 0.2}px)`;
+      }
+      if (y < 800 && heroBurger) {
+        heroBurger.style.transform = `rotate(${y * 0.05}deg)`;
+      }
+    });
+
+    // ============ Inject keyframes for cards ============
+    const styleEl = document.createElement('style');
+    styleEl.textContent = `@keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }`;
+    document.head.appendChild(styleEl);
+  </script>
+</body>
+</html>
