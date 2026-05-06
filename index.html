@@ -195,11 +195,18 @@
       </nav>
 
       <div class="flex items-center gap-2">
-        <a href="#order" class="tap relative hidden sm:inline-flex items-center gap-2 overflow-hidden rounded-full bg-gradient-to-r from-brand-500 to-brand-600 px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-brand-600/40 hover:scale-105 transition-transform animate-pulse-glow">
+        <!-- Bouton panier -->
+        <button id="cart-open" class="tap relative w-11 h-11 rounded-xl sm:rounded-full bg-white/10 hover:bg-white/15 border border-white/10 text-white flex items-center justify-center transition-colors group" aria-label="Ouvrir le panier">
+          <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+          <span id="cart-badge" class="hidden absolute -top-1 -right-1 min-w-[20px] h-5 px-1 rounded-full bg-gold-400 text-black text-[11px] font-black flex items-center justify-center shadow-lg">0</span>
+        </button>
+
+        <button id="cart-cta-nav" class="tap relative hidden sm:inline-flex items-center gap-2 overflow-hidden rounded-full bg-gradient-to-r from-brand-500 to-brand-600 px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-brand-600/40 hover:scale-105 transition-transform animate-pulse-glow">
           <span class="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shine"></span>
-          <i data-lucide="shopping-bag" class="w-4 h-4 relative"></i>
+          <i data-lucide="zap" class="w-4 h-4 relative"></i>
           <span class="relative">Commander</span>
-        </a>
+        </button>
+
         <button id="menu-toggle" class="lg:hidden w-10 h-10 rounded-xl bg-white/10 border border-white/10 text-white flex items-center justify-center" aria-label="menu">
           <i data-lucide="menu" class="w-5 h-5" id="menu-icon"></i>
         </button>
@@ -662,6 +669,78 @@
     </div>
   </footer>
 
+  <!-- ========== PANIER (drawer) ========== -->
+  <div id="cart-overlay" class="fixed inset-0 z-[60] bg-black/70 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300"></div>
+
+  <aside id="cart-drawer" class="fixed top-0 right-0 z-[70] h-full w-full sm:w-[440px] bg-gradient-to-b from-[#1a0512] via-[#0d0510] to-[#0d0510] border-l border-white/10 shadow-2xl translate-x-full transition-transform duration-400 ease-out flex flex-col">
+    <!-- Header -->
+    <div class="flex items-center justify-between p-5 border-b border-white/10">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center shadow-lg shadow-brand-600/40">
+          <i data-lucide="shopping-bag" class="w-5 h-5 text-gold-400"></i>
+        </div>
+        <div>
+          <p class="font-display text-white text-2xl leading-none">Ton Panier</p>
+          <p id="cart-count-label" class="text-xs text-white/50 mt-1">0 article</p>
+        </div>
+      </div>
+      <button id="cart-close" class="tap w-10 h-10 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white flex items-center justify-center transition-colors" aria-label="Fermer">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+    </div>
+
+    <!-- Items -->
+    <div id="cart-items" class="flex-1 overflow-y-auto p-5 space-y-3"></div>
+
+    <!-- Empty state -->
+    <div id="cart-empty" class="flex-1 flex flex-col items-center justify-center text-center px-8 hidden">
+      <div class="w-24 h-24 rounded-full bg-brand-600/20 border border-brand-600/30 flex items-center justify-center mb-5">
+        <i data-lucide="shopping-bag" class="w-10 h-10 text-brand-500"></i>
+      </div>
+      <h3 class="font-display text-white text-3xl leading-none mb-2">Panier vide</h3>
+      <p class="text-white/50 text-sm mb-6">Ajoute tes produits préférés et lance ta commande !</p>
+      <button id="cart-empty-cta" class="tap inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-brand-500 to-brand-600 text-white px-6 py-3 font-bold text-sm shadow-2xl shadow-brand-600/40 hover:scale-105 transition-transform">
+        Voir le menu <i data-lucide="arrow-right" class="w-4 h-4"></i>
+      </button>
+    </div>
+
+    <!-- Footer -->
+    <div id="cart-footer" class="border-t border-white/10 p-5 bg-black/40 backdrop-blur-xl hidden">
+      <div class="space-y-2 mb-4">
+        <div class="flex items-center justify-between text-sm">
+          <span class="text-white/60">Sous-total</span>
+          <span id="cart-subtotal" class="font-bold text-white">0 DH</span>
+        </div>
+        <div class="flex items-center justify-between text-sm">
+          <span class="text-white/60 flex items-center gap-1.5">
+            <i data-lucide="bike" class="w-4 h-4"></i>
+            Livraison
+          </span>
+          <span id="cart-delivery" class="font-bold text-green-400">Gratuite</span>
+        </div>
+        <div class="flex items-center justify-between pt-3 border-t border-white/10">
+          <span class="font-bold text-white">Total</span>
+          <span id="cart-total" class="font-display text-gold-400 text-3xl leading-none">0<span class="text-sm ml-1">DH</span></span>
+        </div>
+      </div>
+      <button id="cart-checkout" class="tap w-full inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-3.5 font-black text-sm shadow-2xl shadow-green-500/40 hover:scale-[1.02] transition-transform">
+        <i data-lucide="message-circle" class="w-5 h-5"></i>
+        Commander via WhatsApp
+      </button>
+      <button id="cart-clear" class="w-full mt-2 text-xs text-white/40 hover:text-white/70 py-2 transition-colors">
+        Vider le panier
+      </button>
+    </div>
+  </aside>
+
+  <!-- ========== TOAST ========== -->
+  <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[80] pointer-events-none opacity-0 translate-y-4 transition-all duration-300">
+    <div class="px-5 py-3 rounded-full bg-green-500 text-white font-bold text-sm shadow-2xl shadow-green-500/40 flex items-center gap-2 whitespace-nowrap">
+      <i data-lucide="check" class="w-4 h-4"></i>
+      <span id="toast-text">Ajouté au panier</span>
+    </div>
+  </div>
+
   <script>
     // ============ DATA — vrais produits & prix Mak'Dal ============
     const enc = (s) => encodeURI(s);
@@ -789,7 +868,7 @@
               <div class="hidden sm:flex items-center gap-0.5">
                 ${[...Array(5)].map(() => `<i data-lucide="star" class="w-3.5 h-3.5 text-gold-400" style="fill:currentColor"></i>`).join('')}
               </div>
-              <button class="tap w-full sm:w-auto inline-flex items-center justify-center gap-1.5 text-[11px] sm:text-xs font-bold text-white bg-brand-500 hover:bg-brand-600 px-3 py-1.5 rounded-full transition-colors">
+              <button data-add-menu="${tabId}::${i}" class="tap w-full sm:w-auto inline-flex items-center justify-center gap-1.5 text-[11px] sm:text-xs font-bold text-white bg-brand-500 hover:bg-brand-600 px-3 py-1.5 rounded-full transition-colors">
                 <i data-lucide="plus" class="w-3 h-3"></i> Ajouter
               </button>
             </div>
@@ -800,6 +879,19 @@
       lucide.createIcons();
     }
     renderMenu('burgers');
+
+    // Event delegation pour les boutons "Ajouter" du menu (re-rendered)
+    document.getElementById('menu-grid').addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-add-menu]');
+      if (!btn) return;
+      const [tabId, idx] = btn.dataset.addMenu.split('::');
+      const item = MENU[tabId][+idx];
+      if (!item) return;
+      addToCart({ name: item.name, price: item.price, img: item.img, category: tabId });
+      // Petit feedback visuel sur le bouton
+      btn.classList.add('!bg-green-500');
+      setTimeout(() => btn.classList.remove('!bg-green-500'), 500);
+    });
 
     // ============ TACOS BUILDER ============
     const TB_SIZES = [
@@ -997,10 +1089,24 @@
 
     document.getElementById('tb-cta').addEventListener('click', () => {
       if (tbState.meats.length < tbState.size.meats) {
-        alert(`Choisis ${tbState.size.meats} viande${tbState.size.meats > 1 ? 's' : ''} pour ton tacos ${tbState.size.label} 🌯`);
+        showToast(`⚠️ Choisis ${tbState.size.meats} viande${tbState.size.meats > 1 ? 's' : ''}`);
         return;
       }
-      alert(`Tacos ${tbState.size.label} ajouté au panier ! 🌯\nTotal : ${tbTotal.textContent} DH`);
+      const meatNames = tbState.meats.map(id => TB_MEATS.find(m => m.id === id)?.label).filter(Boolean);
+      const extrasTotal = tbState.extras.reduce((s, eId) => s + (TB_EXTRAS.find(x => x.id === eId)?.price || 0), 0);
+      const extraNames = tbState.extras.map(id => TB_EXTRAS.find(x => x.id === id)?.label).filter(Boolean);
+      const detail = [
+        meatNames.join(', '),
+        tbState.sauces.length ? `Sauces : ${tbState.sauces.join(', ')}` : null,
+        extraNames.length ? `+ ${extraNames.join(', ')}` : null,
+      ].filter(Boolean).join(' · ');
+      addToCart({
+        name: `Tacos ${tbState.size.label}`,
+        price: tbState.size.price + extrasTotal,
+        img: 'TACOS/tacos.png',
+        category: 'tacos-custom',
+        detail,
+      });
     });
 
     updateTB();
@@ -1119,6 +1225,161 @@
       `;
       whyGrid.appendChild(div);
     });
+
+    // ============ PANIER ============
+    const CART_KEY = 'makdal_cart_v1';
+    const PHONE = '212600000000'; // numéro WhatsApp Mak'Dal (à remplacer par le vrai)
+
+    let cart = [];
+    try { cart = JSON.parse(localStorage.getItem(CART_KEY)) || []; } catch (e) { cart = []; }
+
+    const cartOverlay   = document.getElementById('cart-overlay');
+    const cartDrawer    = document.getElementById('cart-drawer');
+    const cartItemsEl   = document.getElementById('cart-items');
+    const cartEmpty     = document.getElementById('cart-empty');
+    const cartFooter    = document.getElementById('cart-footer');
+    const cartBadge     = document.getElementById('cart-badge');
+    const cartCountLbl  = document.getElementById('cart-count-label');
+    const cartSubtotal  = document.getElementById('cart-subtotal');
+    const cartTotalEl   = document.getElementById('cart-total');
+    const toastEl       = document.getElementById('toast');
+    const toastText     = document.getElementById('toast-text');
+
+    const saveCart = () => localStorage.setItem(CART_KEY, JSON.stringify(cart));
+    const cartCount = () => cart.reduce((s, it) => s + it.qty, 0);
+    const cartTotal = () => cart.reduce((s, it) => s + it.price * it.qty, 0);
+
+    const openCart = () => {
+      cartOverlay.classList.remove('opacity-0', 'pointer-events-none');
+      cartDrawer.classList.remove('translate-x-full');
+      document.body.style.overflow = 'hidden';
+    };
+    const closeCart = () => {
+      cartOverlay.classList.add('opacity-0', 'pointer-events-none');
+      cartDrawer.classList.add('translate-x-full');
+      document.body.style.overflow = '';
+    };
+
+    let toastTimer;
+    const showToast = (msg = 'Ajouté au panier') => {
+      toastText.textContent = msg;
+      toastEl.classList.remove('opacity-0', 'translate-y-4');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toastEl.classList.add('opacity-0', 'translate-y-4'), 1800);
+    };
+
+    const renderCart = () => {
+      const count = cartCount();
+      cartBadge.classList.toggle('hidden', count === 0);
+      cartBadge.textContent = count;
+      cartCountLbl.textContent = `${count} article${count > 1 ? 's' : ''}`;
+
+      cartEmpty.classList.toggle('hidden', count > 0);
+      cartFooter.classList.toggle('hidden', count === 0);
+      cartItemsEl.classList.toggle('hidden', count === 0);
+
+      cartItemsEl.innerHTML = cart.map((it, i) => `
+        <div class="flex gap-3 p-3 rounded-2xl bg-white/[0.04] border border-white/10">
+          <div class="relative w-20 h-20 rounded-xl bg-gradient-to-br from-brand-600 to-brand-800 overflow-hidden shrink-0">
+            <div class="absolute inset-0 halo-gold opacity-50"></div>
+            ${it.img ? `<img src="${enc(it.img)}" alt="${it.name}" class="relative w-full h-full object-contain p-2 product-img" onerror="this.style.opacity=0.3">` : `<div class="absolute inset-0 flex items-center justify-center text-3xl">${it.emoji || '🌯'}</div>`}
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-start justify-between gap-2">
+              <div class="min-w-0">
+                <p class="font-bold text-white text-sm leading-tight truncate">${it.name}</p>
+                ${it.detail ? `<p class="text-[10px] text-white/50 mt-0.5 line-clamp-2">${it.detail}</p>` : ''}
+              </div>
+              <button data-cart-remove="${i}" class="tap shrink-0 w-7 h-7 rounded-lg text-white/40 hover:text-red-400 hover:bg-red-500/10 transition-colors flex items-center justify-center" aria-label="Retirer">
+                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
+            <div class="mt-2 flex items-center justify-between">
+              <div class="inline-flex items-center bg-white/5 border border-white/10 rounded-full">
+                <button data-cart-dec="${i}" class="tap w-7 h-7 rounded-full text-white/70 hover:text-white flex items-center justify-center" aria-label="Moins">
+                  <i data-lucide="minus" class="w-3 h-3"></i>
+                </button>
+                <span class="px-2 text-sm font-bold text-white tabular-nums">${it.qty}</span>
+                <button data-cart-inc="${i}" class="tap w-7 h-7 rounded-full text-white/70 hover:text-white flex items-center justify-center" aria-label="Plus">
+                  <i data-lucide="plus" class="w-3 h-3"></i>
+                </button>
+              </div>
+              <p class="font-black text-gold-400 text-sm whitespace-nowrap">${it.price * it.qty} DH</p>
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      const total = cartTotal();
+      cartSubtotal.textContent = `${total} DH`;
+      cartTotalEl.innerHTML = `${total}<span class="text-sm ml-1">DH</span>`;
+      lucide.createIcons();
+    };
+
+    const addToCart = (item) => {
+      // Pour les items custom (tacos), on ajoute toujours une nouvelle entrée
+      // Pour les items standard, on incrémente la qty si déjà présent (même nom + même detail)
+      const key = item.detail ? null : cart.findIndex(it => it.name === item.name && !it.detail);
+      if (key !== null && key > -1) {
+        cart[key].qty += item.qty || 1;
+      } else {
+        cart.push({ ...item, qty: item.qty || 1 });
+      }
+      saveCart();
+      renderCart();
+      showToast(`✓ ${item.name} ajouté`);
+    };
+
+    cartItemsEl.addEventListener('click', (e) => {
+      const inc = e.target.closest('[data-cart-inc]');
+      const dec = e.target.closest('[data-cart-dec]');
+      const rm  = e.target.closest('[data-cart-remove]');
+      if (inc) { cart[+inc.dataset.cartInc].qty++; saveCart(); renderCart(); return; }
+      if (dec) {
+        const i = +dec.dataset.cartDec;
+        cart[i].qty--;
+        if (cart[i].qty <= 0) cart.splice(i, 1);
+        saveCart(); renderCart(); return;
+      }
+      if (rm)  { cart.splice(+rm.dataset.cartRemove, 1); saveCart(); renderCart(); return; }
+    });
+
+    document.getElementById('cart-open').addEventListener('click', openCart);
+    document.getElementById('cart-close').addEventListener('click', closeCart);
+    cartOverlay.addEventListener('click', closeCart);
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeCart(); });
+
+    document.getElementById('cart-cta-nav').addEventListener('click', openCart);
+    document.getElementById('cart-empty-cta').addEventListener('click', () => {
+      closeCart();
+      setTimeout(() => document.getElementById('menu').scrollIntoView({ behavior: 'smooth' }), 250);
+    });
+
+    document.getElementById('cart-clear').addEventListener('click', () => {
+      if (cart.length && confirm('Vider tout le panier ?')) {
+        cart = [];
+        saveCart();
+        renderCart();
+      }
+    });
+
+    // Checkout WhatsApp
+    document.getElementById('cart-checkout').addEventListener('click', () => {
+      if (!cart.length) return;
+      const lines = cart.map(it => `• *${it.qty}× ${it.name}* — ${it.price * it.qty} DH${it.detail ? `\n  _${it.detail}_` : ''}`).join('\n');
+      const total = cartTotal();
+      const msg = `🍔 *Commande Mak'Dal*\n\n${lines}\n\n*TOTAL : ${total} DH*\n\nMerci !`;
+      const url = `https://wa.me/${PHONE}?text=${encodeURIComponent(msg)}`;
+      window.open(url, '_blank');
+    });
+
+    // Liens "#order" → ouvrir le panier
+    document.querySelectorAll('a[href="#order"]').forEach(a => {
+      a.addEventListener('click', (e) => { e.preventDefault(); openCart(); });
+    });
+
+    // Init render
+    renderCart();
 
     // ============ INIT LUCIDE ============
     lucide.createIcons();
