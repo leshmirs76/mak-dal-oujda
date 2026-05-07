@@ -669,6 +669,85 @@
     </div>
   </footer>
 
+  <!-- ========== MODAL CONFIGURATION SANDWICH ========== -->
+  <div id="cfg-overlay" class="fixed inset-0 z-[65] bg-black/70 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300"></div>
+
+  <div id="cfg-modal" class="fixed inset-x-0 bottom-0 sm:inset-0 z-[75] flex items-end sm:items-center justify-center pointer-events-none">
+    <div id="cfg-content" class="relative w-full sm:max-w-lg sm:mx-4 max-h-[92vh] sm:max-h-[88vh] bg-gradient-to-b from-[#1a0512] to-[#0d0510] border border-white/10 rounded-t-3xl sm:rounded-3xl shadow-2xl shadow-brand-900/50 translate-y-full sm:translate-y-8 sm:scale-95 opacity-0 transition-all duration-400 ease-out flex flex-col pointer-events-auto">
+
+      <!-- Header avec image produit -->
+      <div class="relative shrink-0 overflow-hidden rounded-t-3xl sm:rounded-t-3xl bg-gradient-to-br from-brand-500 via-brand-600 to-brand-800 p-5 sm:p-6">
+        <div class="absolute inset-0 halo-gold opacity-60"></div>
+        <div class="absolute inset-0 spotlight"></div>
+        <button id="cfg-close" class="tap absolute top-3 right-3 w-9 h-9 rounded-xl bg-black/30 hover:bg-black/50 backdrop-blur-md text-white flex items-center justify-center z-10" aria-label="Fermer">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+        <div class="relative flex items-center gap-4">
+          <img id="cfg-img" src="" alt="" class="w-24 h-24 sm:w-28 sm:h-28 object-contain product-img drop-shadow-2xl shrink-0" onerror="this.style.opacity=0.3" />
+          <div class="min-w-0">
+            <p class="text-[10px] font-bold tracking-[0.25em] text-gold-400">PERSONNALISE TON</p>
+            <h3 id="cfg-title" class="font-display text-white text-2xl sm:text-3xl leading-none mt-1"></h3>
+            <p id="cfg-base-price" class="text-white/80 text-sm mt-2 font-bold"></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Body scrollable -->
+      <div class="flex-1 overflow-y-auto p-5 sm:p-6 space-y-6">
+
+        <!-- ÉTAPE 1 — Menu ou pas -->
+        <div>
+          <div class="flex items-center gap-2 mb-3">
+            <span class="w-6 h-6 rounded-full bg-gradient-to-br from-brand-500 to-brand-600 text-white font-black text-xs flex items-center justify-center">1</span>
+            <h4 class="font-bold text-white text-base">En menu ?</h4>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <button data-cfg-menu="0" class="cfg-menu-btn tap rounded-2xl border-2 border-gold-400 bg-gold-400/10 p-3 text-left transition-all">
+              <p class="font-bold text-white text-sm">Sandwich seul</p>
+              <p class="text-[11px] text-white/60 mt-1">Juste le sandwich</p>
+            </button>
+            <button data-cfg-menu="20" class="cfg-menu-btn tap rounded-2xl border-2 border-white/10 bg-white/[0.03] hover:border-white/30 p-3 text-left transition-all">
+              <p class="font-bold text-white text-sm flex items-center gap-1.5">En menu <span class="text-gold-400 text-xs font-black">+20 DH</span></p>
+              <p class="text-[11px] text-white/60 mt-1">Frites + boisson</p>
+            </button>
+          </div>
+        </div>
+
+        <!-- ÉTAPE 2 — Boisson (visible uniquement si menu) -->
+        <div id="cfg-drinks-section" class="hidden">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="w-6 h-6 rounded-full bg-gradient-to-br from-brand-500 to-brand-600 text-white font-black text-xs flex items-center justify-center">2</span>
+            <h4 class="font-bold text-white text-base">Choisis ta boisson</h4>
+            <span class="text-[10px] font-bold text-white/40 ml-auto">offerte</span>
+          </div>
+          <div id="cfg-drinks" class="grid grid-cols-2 gap-2"></div>
+        </div>
+
+        <!-- ÉTAPE 3 — Sauces -->
+        <div>
+          <div class="flex items-center gap-2 mb-3">
+            <span id="cfg-sauces-step" class="w-6 h-6 rounded-full bg-gradient-to-br from-brand-500 to-brand-600 text-white font-black text-xs flex items-center justify-center">2</span>
+            <h4 class="font-bold text-white text-base">Tes sauces</h4>
+            <span class="text-[10px] font-bold text-white/40 ml-auto">2 max · offertes</span>
+          </div>
+          <div id="cfg-sauces" class="grid grid-cols-3 sm:grid-cols-3 gap-1.5"></div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="shrink-0 border-t border-white/10 p-4 sm:p-5 bg-black/40 backdrop-blur-xl rounded-b-3xl">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-white/70 text-sm font-semibold">Total</span>
+          <span class="font-display text-gold-400 text-3xl leading-none"><span id="cfg-total">0</span><span class="text-sm ml-1">DH</span></span>
+        </div>
+        <button id="cfg-add" class="tap w-full inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-600 hover:to-brand-700 text-white px-6 py-3.5 font-black text-sm shadow-2xl shadow-brand-600/40 transition-all">
+          <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+          Ajouter au panier
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- ========== PANIER (drawer) ========== -->
   <div id="cart-overlay" class="fixed inset-0 z-[60] bg-black/70 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300"></div>
 
@@ -887,6 +966,13 @@
       const [tabId, idx] = btn.dataset.addMenu.split('::');
       const item = MENU[tabId][+idx];
       if (!item) return;
+
+      // Sandwichs : ouvrir la modal de configuration (menu? boisson? sauces?)
+      if (tabId === 'sandwichs') {
+        openConfig(item);
+        return;
+      }
+
       addToCart({ name: item.name, price: item.price, img: item.img, category: tabId });
       // Petit feedback visuel sur le bouton
       btn.classList.add('!bg-green-500');
@@ -1224,6 +1310,168 @@
         </div>
       `;
       whyGrid.appendChild(div);
+    });
+
+    // ============ MODAL CONFIG SANDWICH ============
+    const DRINKS = [
+      "Coca", "Coca Zero", "Sprite", "Fanta Orange", "Fanta Citron",
+      "Hawaï Tropical", "Hawaï Ananas", "Pom's", "Orangina",
+      "Schweppes Mojito", "Schweppes Gold", "Eau 50cl",
+    ];
+
+    const SANDWICH_SAUCES = [
+      "Algérienne", "Biggy", "Andalouse", "Barbecue", "Samouraï",
+      "Ketchup", "Mayonnaise", "Blanche", "Fromagère",
+    ];
+
+    const cfgState = { item: null, menuPrice: 0, drink: null, sauces: [] };
+
+    const cfgOverlay  = document.getElementById('cfg-overlay');
+    const cfgModal    = document.getElementById('cfg-modal');
+    const cfgContent  = document.getElementById('cfg-content');
+    const cfgImg      = document.getElementById('cfg-img');
+    const cfgTitle    = document.getElementById('cfg-title');
+    const cfgBasePrice = document.getElementById('cfg-base-price');
+    const cfgDrinksSection = document.getElementById('cfg-drinks-section');
+    const cfgDrinksGrid = document.getElementById('cfg-drinks');
+    const cfgSaucesGrid = document.getElementById('cfg-sauces');
+    const cfgSaucesStep = document.getElementById('cfg-sauces-step');
+    const cfgTotalEl  = document.getElementById('cfg-total');
+
+    // Render drinks
+    cfgDrinksGrid.innerHTML = DRINKS.map(d => `
+      <button data-cfg-drink="${d}" class="cfg-drink-btn tap rounded-xl border-2 border-white/10 bg-white/[0.03] hover:border-white/30 p-2.5 text-left transition-all">
+        <p class="font-semibold text-white/90 text-xs">${d}</p>
+      </button>
+    `).join('');
+
+    // Render sauces
+    cfgSaucesGrid.innerHTML = SANDWICH_SAUCES.map(s => `
+      <button data-cfg-sauce="${s}" class="cfg-sauce-btn tap rounded-full border border-white/10 bg-white/[0.03] hover:border-white/30 px-2.5 py-1.5 text-[11px] font-semibold text-white/80 transition-all">${s}</button>
+    `).join('');
+
+    const openConfig = (item) => {
+      cfgState.item = item;
+      cfgState.menuPrice = 0;
+      cfgState.drink = null;
+      cfgState.sauces = [];
+
+      cfgImg.src = encodeURI(item.img);
+      cfgImg.alt = item.name;
+      cfgTitle.textContent = item.name;
+      cfgBasePrice.innerHTML = `<span class="text-white/60">À partir de</span> <span class="font-black text-gold-400">${item.price} DH</span>`;
+
+      updateConfigUI();
+
+      cfgOverlay.classList.remove('opacity-0', 'pointer-events-none');
+      cfgModal.classList.add('pointer-events-auto');
+      requestAnimationFrame(() => {
+        cfgContent.classList.remove('translate-y-full', 'sm:translate-y-8', 'sm:scale-95', 'opacity-0');
+      });
+      document.body.style.overflow = 'hidden';
+      lucide.createIcons();
+    };
+
+    const closeConfig = () => {
+      cfgOverlay.classList.add('opacity-0', 'pointer-events-none');
+      cfgModal.classList.remove('pointer-events-auto');
+      cfgContent.classList.add('translate-y-full', 'sm:translate-y-8', 'sm:scale-95', 'opacity-0');
+      document.body.style.overflow = '';
+    };
+
+    const updateConfigUI = () => {
+      if (!cfgState.item) return;
+      // Active "menu" button
+      document.querySelectorAll('.cfg-menu-btn').forEach(b => {
+        const active = +b.dataset.cfgMenu === cfgState.menuPrice;
+        b.classList.toggle('border-gold-400', active);
+        b.classList.toggle('bg-gold-400/10', active);
+        b.classList.toggle('border-white/10', !active);
+        b.classList.toggle('bg-white/[0.03]', !active);
+      });
+      // Drinks visibility
+      const isMenu = cfgState.menuPrice > 0;
+      cfgDrinksSection.classList.toggle('hidden', !isMenu);
+      cfgSaucesStep.textContent = isMenu ? '3' : '2';
+
+      // Active drink
+      document.querySelectorAll('.cfg-drink-btn').forEach(b => {
+        const active = b.dataset.cfgDrink === cfgState.drink;
+        b.classList.toggle('border-brand-500', active);
+        b.classList.toggle('bg-brand-500/15', active);
+        b.classList.toggle('border-white/10', !active);
+        b.classList.toggle('bg-white/[0.03]', !active);
+      });
+      // Active sauces
+      document.querySelectorAll('.cfg-sauce-btn').forEach(b => {
+        const active = cfgState.sauces.includes(b.dataset.cfgSauce);
+        b.classList.toggle('bg-gold-400', active);
+        b.classList.toggle('text-black', active);
+        b.classList.toggle('border-gold-400', active);
+        b.classList.toggle('font-black', active);
+        b.classList.toggle('border-white/10', !active);
+        b.classList.toggle('bg-white/[0.03]', !active);
+        b.classList.toggle('text-white/80', !active);
+      });
+      // Total
+      cfgTotalEl.textContent = cfgState.item.price + cfgState.menuPrice;
+    };
+
+    document.getElementById('cfg-close').addEventListener('click', closeConfig);
+    cfgOverlay.addEventListener('click', closeConfig);
+
+    document.querySelectorAll('.cfg-menu-btn').forEach(b => {
+      b.addEventListener('click', () => {
+        cfgState.menuPrice = +b.dataset.cfgMenu;
+        if (cfgState.menuPrice === 0) cfgState.drink = null; // reset drink si plus en menu
+        updateConfigUI();
+      });
+    });
+
+    cfgDrinksGrid.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-cfg-drink]');
+      if (!btn) return;
+      cfgState.drink = btn.dataset.cfgDrink;
+      updateConfigUI();
+    });
+
+    cfgSaucesGrid.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-cfg-sauce]');
+      if (!btn) return;
+      const s = btn.dataset.cfgSauce;
+      if (cfgState.sauces.includes(s)) {
+        cfgState.sauces = cfgState.sauces.filter(x => x !== s);
+      } else if (cfgState.sauces.length < 2) {
+        cfgState.sauces.push(s);
+      } else {
+        cfgState.sauces = [...cfgState.sauces.slice(1), s];
+      }
+      updateConfigUI();
+    });
+
+    document.getElementById('cfg-add').addEventListener('click', () => {
+      if (!cfgState.item) return;
+      const isMenu = cfgState.menuPrice > 0;
+      if (isMenu && !cfgState.drink) {
+        showToast('⚠️ Choisis ta boisson');
+        return;
+      }
+      const detail = [
+        isMenu ? `Menu (frites + ${cfgState.drink})` : 'Sandwich seul',
+        cfgState.sauces.length ? `Sauces : ${cfgState.sauces.join(', ')}` : null,
+      ].filter(Boolean).join(' · ');
+      addToCart({
+        name: isMenu ? `${cfgState.item.name} (Menu)` : cfgState.item.name,
+        price: cfgState.item.price + cfgState.menuPrice,
+        img: cfgState.item.img,
+        category: 'sandwichs',
+        detail,
+      });
+      closeConfig();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !cfgOverlay.classList.contains('pointer-events-none')) closeConfig();
     });
 
     // ============ PANIER ============
